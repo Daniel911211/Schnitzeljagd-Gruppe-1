@@ -4,43 +4,79 @@
 <meta charset="UTF-8">
 <title>Schnitzeljagd – Station 1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #e5e7eb;
+    padding: 20px;
+    margin: 0;
+  }
+  h1 {
+    margin-top: 0;
+  }
+  input {
+    width: 100%;
+    max-width: 320px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  button {
+    margin-top: 12px;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
 </head>
 
 <body>
 
-<h2>🚒 Station 1</h2>
-<p>Wie lautet die europäische Notrufnummer?</p>
+<h1>🚒 Station 1</h1>
 
-<input id="answer" placeholder="Antwort eingeben">
-<br><br>
-<button onclick="send()">Absenden</button>
+<p><b>Frage:</b><br>
+Wie lautet die europäische Notrufnummer?</p>
 
-<form id="form"
+<input type="text" id="answer" placeholder="Antwort eingeben">
+<br>
+<button onclick="submitAnswer()">Antwort absenden</button>
+
+<!-- ===============================
+     GOOGLE FORM SUBMIT (HIDDEN)
+================================ -->
+<form id="sendForm"
   action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfjM6LxvUFyhUwfu375XBc7Usx2Bj8eG53Uq_lu0ocTGOwj0w/formResponse"
   method="POST"
   target="_self">
 
-  <!-- FESTE DATEN -->
-  <input type="hidden" name="entry.630155698" value="1"> <!-- Gruppe -->
-  <input type="hidden" name="entry.1125537486" value="1"> <!-- Station -->
+  <!-- FESTE WERTE -->
+  <input type="hidden" name="entry.630155698" value="1">   <!-- Gruppe -->
+  <input type="hidden" name="entry.1125537486" value="1">  <!-- Station -->
 
-  <!-- DYNAMISCH -->
-  <input type="hidden" name="entry.892324664" id="punkte">
-  <input type="hidden" name="entry.203971329" id="antwort">
-  <input type="hidden" name="entry.1082568972" value="">
+  <!-- AUTOMATISCH -->
+  <input type="hidden" name="entry.892324664" id="punkte">   <!-- Punkte -->
+  <input type="hidden" name="entry.1082568972" value="">    <!-- Zeit -->
+  <input type="hidden" name="entry.203971329" id="antwort"> <!-- Antwort -->
 </form>
 
 <script>
-function send() {
-  const a = document.getElementById("answer").value.trim();
-  if (!a) return alert("Antwort fehlt!");
+function submitAnswer() {
+  const userAnswer =
+    document.getElementById("answer").value.trim();
 
-  const richtig = (a === "112");
+  if (!userAnswer) {
+    alert("Bitte eine Antwort eingeben!");
+    return;
+  }
 
-  document.getElementById("punkte").value = richtig ? 10 : 0;
-  document.getElementById("antwort").value = a;
+  const richtigeAntworten = ["112"];
+  const punkte = richtigeAntworten.includes(userAnswer) ? 10 : 0;
 
-  document.getElementById("form").submit();
+  document.getElementById("punkte").value = punkte;
+  document.getElementById("antwort").value = userAnswer;
+
+  document.getElementById("sendForm").submit();
 }
 </script>
 
