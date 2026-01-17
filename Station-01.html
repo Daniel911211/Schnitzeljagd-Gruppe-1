@@ -142,6 +142,26 @@
       "<h2 style='color:white;text-align:center'>✅ Diese Station wurde bereits erledigt.</h2>";
   }
 </script>
+<script>
+const startZeit = Date.now();
 
+function bewerten() {
+  const antwort = document.getElementById("antwort").value.trim();
+
+  document.getElementById("punkte").value =
+    (antwort === "112") ? "10" : "0";
+
+  document.getElementById("zeit").value =
+    Math.round((Date.now() - startZeit) / 1000);
+
+  // Formular ausblenden, Erfolg anzeigen
+  setTimeout(() => {
+    document.querySelector("form").style.display = "none";
+    document.getElementById("gesendet").style.display = "block";
+  }, 200);
+
+  return true; // Formular wird an Google gesendet
+}
+</script>
 </body>
 </html>
