@@ -1,44 +1,79 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Schnitzeljagd – Station 1</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Schnitzeljagd – Station 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:#e5e7eb;
+    margin:0;
+    padding:20px;
+  }
+  h1 { margin-bottom:10px; }
+  button {
+    padding:10px 15px;
+    font-size:16px;
+    margin-top:10px;
+  }
+</style>
 </head>
 
 <body>
 
-<h2>🚒 Station 1 – Feuerwehrfrage</h2>
+<h1>🚒 Station 1 – Feuerwehrfrage</h1>
 
 <p><b>Frage:</b><br>
-Welche Nummer hat der europäische Notruf?</p>
+Wie lautet die europäische Notrufnummer?</p>
 
-<form action="https://docs.google.com/forms/d/e/1FAIpQLSe-QltT38ziuCpZ6dnzuJ5kCWk_0j8uHtuU6ruGwpuHd4Mmdw/formResponse"
+<input type="text" id="answer" placeholder="Antwort eingeben">
+<br><br>
+<button onclick="submitAnswer()">Antwort absenden</button>
+
+<form id="sendForm"
+      action="https://docs.google.com/forms/d/e/FORM_ID_DER_GRUPPE_1/formResponse"
       method="POST"
       target="_self">
 
-  <!-- feste Werte -->
-  <input type="hidden" name="entry.2126285314" value="1">   <!-- Station -->
-  <input type="hidden" name="entry.54905713" value="10">    <!-- Punkte -->
-  <input type="hidden" name="entry.1851241701" value="00:45"> <!-- Zeit -->
-
-  <label>
-    Gruppe:<br>
-    <input type="text" name="entry.1069697331" required>
-  </label>
-
-  <br><br>
-
-  <label>
-    Antwort:<br>
-    <input type="text" name="entry.437767023" required>
-  </label>
-
-  <br><br>
-
-  <button type="submit">Antwort absenden</button>
-
+  <!-- FESTE WERTE -->
+  <input type="hidden" name="entry.GRUPE" value="1">
+  <input type="hidden" name="entry.STATION" value="1">
+  <input type="hidden" name="entry.PUNKTE" id="punkte">
+  <input type="hidden" name="entry.ANTWORT" id="antwort">
 </form>
+
+<script>
+/* ======================
+   KONFIGURATION
+====================== */
+const RICHTIGE_ANTWORTEN = ["112"];
+const PUNKTE_RICHTIG = 10;
+const PUNKTE_FALSCH = 0;
+
+/* ======================
+   LOGIK
+====================== */
+function submitAnswer() {
+  const userAnswer = document.getElementById("answer").value.trim();
+
+  if (!userAnswer) {
+    alert("Bitte eine Antwort eingeben!");
+    return;
+  }
+
+  const richtig = RICHTIGE_ANTWORTEN.includes(userAnswer);
+
+  document.getElementById("punkte").value =
+    richtig ? PUNKTE_RICHTIG : PUNKTE_FALSCH;
+
+  document.getElementById("antwort").value = userAnswer;
+
+  document.getElementById("sendForm").submit();
+}
+</script>
 
 </body>
 </html>
