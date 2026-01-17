@@ -80,22 +80,40 @@
   </div>
 
   <form
-    action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
-    method="POST"
-  >
+  action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
+  method="POST"
+  onsubmit="return bewerten();"
+>
+
     <!-- feste Werte -->
     <input type="hidden" name="entry.1841279378" value="1">  <!-- Gruppe -->
     <input type="hidden" name="entry.1611288883" value="1">  <!-- Station -->
-    <input type="hidden" name="entry.476999913" value="10"> <!-- Punkte -->
+    <input type="hidden" name="entry.476999913" id="punkte" value=""> <!-- Punkte -->
     <input type="hidden" name="entry.1051828811" value="">  <!-- Zeit -->
 
     <!-- Antwort -->
-    <input
-      type="text"
-      name="entry.1865983702"
-      placeholder="Antwort eingeben"
-      required
-    >
+   <input
+  type="text"
+  id="antwort"
+  name="entry.1865983702"
+  placeholder="Antwort eingeben"
+  required
+>
+<script>
+  function bewerten() {
+    const antwort = document.getElementById("antwort").value.trim();
+    const punkte = document.getElementById("punkte");
+
+    if (antwort === "112") {
+      punkte.value = "10";
+    } else {
+      punkte.value = "0";
+    }
+
+    return true; // Formular absenden
+  }
+</script>
+
 
     <button type="submit">Antwort absenden</button>
   </form>
