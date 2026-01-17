@@ -4,74 +4,43 @@
 <meta charset="UTF-8">
 <title>Schnitzeljagd – Station 1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background:#0f172a;
-    color:#e5e7eb;
-    margin:0;
-    padding:20px;
-  }
-  h1 { margin-bottom:10px; }
-  button {
-    padding:10px 15px;
-    font-size:16px;
-    margin-top:10px;
-  }
-</style>
 </head>
 
 <body>
 
-<h1>🚒 Station 1 – Feuerwehrfrage</h1>
+<h2>🚒 Station 1</h2>
+<p>Wie lautet die europäische Notrufnummer?</p>
 
-<p><b>Frage:</b><br>
-Wie lautet die europäische Notrufnummer?</p>
-
-<input type="text" id="answer" placeholder="Antwort eingeben">
+<input id="answer" placeholder="Antwort eingeben">
 <br><br>
-<button onclick="submitAnswer()">Antwort absenden</button>
+<button onclick="send()">Absenden</button>
 
-<form id="sendForm"
-      action="https://docs.google.com/forms/d/e/FORM_ID_DER_GRUPPE_1/formResponse"
-      method="POST"
-      target="_self">
+<form id="form"
+  action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfjM6LxvUFyhUwfu375XBc7Usx2Bj8eG53Uq_lu0ocTGOwj0w/formResponse"
+  method="POST"
+  target="_self">
 
-  <!-- FESTE WERTE -->
-  <input type="hidden" name="entry.GRUPE" value="1">
-  <input type="hidden" name="entry.STATION" value="1">
-  <input type="hidden" name="entry.PUNKTE" id="punkte">
-  <input type="hidden" name="entry.ANTWORT" id="antwort">
+  <!-- FESTE DATEN -->
+  <input type="hidden" name="entry.630155698" value="1"> <!-- Gruppe -->
+  <input type="hidden" name="entry.1125537486" value="1"> <!-- Station -->
+
+  <!-- DYNAMISCH -->
+  <input type="hidden" name="entry.892324664" id="punkte">
+  <input type="hidden" name="entry.203971329" id="antwort">
+  <input type="hidden" name="entry.1082568972" value="">
 </form>
 
 <script>
-/* ======================
-   KONFIGURATION
-====================== */
-const RICHTIGE_ANTWORTEN = ["112"];
-const PUNKTE_RICHTIG = 10;
-const PUNKTE_FALSCH = 0;
+function send() {
+  const a = document.getElementById("answer").value.trim();
+  if (!a) return alert("Antwort fehlt!");
 
-/* ======================
-   LOGIK
-====================== */
-function submitAnswer() {
-  const userAnswer = document.getElementById("answer").value.trim();
+  const richtig = (a === "112");
 
-  if (!userAnswer) {
-    alert("Bitte eine Antwort eingeben!");
-    return;
-  }
+  document.getElementById("punkte").value = richtig ? 10 : 0;
+  document.getElementById("antwort").value = a;
 
-  const richtig = RICHTIGE_ANTWORTEN.includes(userAnswer);
-
-  document.getElementById("punkte").value =
-    richtig ? PUNKTE_RICHTIG : PUNKTE_FALSCH;
-
-  document.getElementById("antwort").value = userAnswer;
-
-  document.getElementById("sendForm").submit();
+  document.getElementById("form").submit();
 }
 </script>
 
