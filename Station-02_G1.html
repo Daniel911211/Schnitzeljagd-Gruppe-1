@@ -76,7 +76,6 @@ button{
 <body>
 <div class="card">
 
-<!-- SPIEL -->
 <div id="spiel">
 <h1>📍 Station 2</h1>
 <div class="timer" id="timer">⏱️ Zeit: 0 s</div>
@@ -88,32 +87,25 @@ target="hidden_iframe"
 onsubmit="return auswerten();">
 
 <!-- feste Felder -->
-<input type="hidden" name="entry.1841279378" value="1"> <!-- Gruppe -->
-<input type="hidden" name="entry.1611288883" value="2"> <!-- Station -->
-<input type="hidden" name="entry.476999913" id="punkte" value="0"> <!-- Punkte -->
-<input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0"> <!-- Bonuspunkte -->
-<input type="hidden" name="entry.1051828811" id="zeit" value=""> <!-- Zeit -->
+<input type="hidden" name="entry.1841279378" value="1">
+<input type="hidden" name="entry.1611288883" value="2">
+<input type="hidden" name="entry.476999913" id="punkte" value="0">
+<input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0">
+<input type="hidden" name="entry.1051828811" id="zeit" value="">
 
-<!-- HAUPTAUFGABE -->
 <div class="section">
 <strong>🧩 Hauptaufgabe</strong><br>
 Wie viele <strong>Zapfpistolen</strong> gibt es insgesamt?
-<input
-  type="text"
-  id="hauptantwort"
-  name="entry.1865983702"
-  required>
+<input type="text" id="hauptantwort" name="entry.1865983702" required>
 </div>
 
-<!-- BONUSAUFGABE -->
 <div class="section">
 <strong>⭐ Bonusaufgabe</strong><br>
 Welches Gefahrensymbol erkennt ihr?
-<input
-  type="text"
-  id="bonusantwort"
-  name="entry.1402484045"
-  placeholder="z. B. leicht entzündlich">
+<input type="text"
+       id="bonusantwort"
+       name="entry.1402484045"
+       placeholder="z. B. leicht entzündlich">
 </div>
 
 <button type="submit" class="submit">Antworten absenden</button>
@@ -124,7 +116,6 @@ Welches Gefahrensymbol erkennt ihr?
 <div class="hilfeBox hidden" id="hilfeBox">
 <strong>Gefahrensymbol</strong>
 <img src="https://daniel911211.github.io/Bilder/Leicht-Entflammbar.png">
-<p>Was bedeutet dieses Symbol?</p>
 <p>
 A: Schwer entflammbar<br>
 <strong>B: Leicht entzündlich</strong><br>
@@ -133,7 +124,6 @@ C: Gesundheitsschädlich
 </div>
 </div>
 
-<!-- ERFOLG -->
 <div id="erfolg" class="success hidden">
 <div class="check">✅</div>
 <h2>Antwort gesendet!</h2>
@@ -156,7 +146,7 @@ an dem Fahrzeuge pausieren.
 const start = Date.now();
 let hilfeGenutzt = false;
 
-const timerInt = setInterval(() => {
+setInterval(() => {
   document.getElementById("timer").innerText =
     "⏱️ Zeit: " + Math.floor((Date.now() - start) / 1000) + " s";
 }, 1000);
@@ -167,9 +157,6 @@ function hilfe(){
 }
 
 function auswerten(){
-  clearInterval(timerInt);
-
-  // Zeit
   document.getElementById("zeit").value =
     Math.floor((Date.now() - start) / 1000);
 
@@ -180,27 +167,23 @@ function auswerten(){
   }
 
   // Bonuspunkte
-  let bonuspunkte = 0;
-  const b = document.getElementById("bonusantwort").value
-    .toLowerCase()
-    .trim();
+  let bonus = 0;
+  const b = document.getElementById("bonusantwort").value.toLowerCase();
 
-  const richtigeAntworten = [
+  const richtige = [
     "leicht entzündlich",
     "gesundheitsgefahr",
     "reizend",
-    "umwelt",
-    "wassergefährdend"
+    "umwelt"
   ];
 
-  if (richtigeAntworten.some(w => b.includes(w))) {
-    bonuspunkte = hilfeGenutzt ? 6 : 10;
+  if (richtige.some(w => b.includes(w))) {
+    bonus = hilfeGenutzt ? 6 : 10;
   }
 
   document.getElementById("punkte").value = punkte;
-  document.getElementById("bonuspunkte").value = bonuspunkte;
+  document.getElementById("bonuspunkte").value = bonus;
 
-  // UI
   document.getElementById("spiel").classList.add("hidden");
   document.getElementById("hilfeBtn").classList.add("hidden");
   document.getElementById("erfolg").classList.remove("hidden");
