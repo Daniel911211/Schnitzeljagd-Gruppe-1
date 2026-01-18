@@ -96,21 +96,13 @@ onsubmit="return auswerten();">
 <div class="section">
 <strong>🧩 Hauptaufgabe</strong><br>
 Wie viele <strong>Zapfpistolen</strong> gibt es insgesamt?
-<input
-  type="text"
-  id="hauptantwort"
-  name="entry.1865983702"
-  required>
+<input type="text" name="entry.1865983702" id="hauptantwort" required>
 </div>
 
 <div class="section">
 <strong>⭐ Bonusaufgabe</strong><br>
 Welches Gefahrensymbol erkennt ihr?
-<input
-  type="text"
-  id="bonusantwort"
-  name="entry.1402484045"
-  placeholder="z. B. leicht entzündlich">
+<input type="text" name="entry.1402484045" id="bonusantwort">
 </div>
 
 <button type="submit" class="submit">Antworten absenden</button>
@@ -152,7 +144,7 @@ an dem Fahrzeuge pausieren.
 const start = Date.now();
 let hilfeGenutzt = false;
 
-const timerInt = setInterval(()=>{
+setInterval(()=>{
   document.getElementById("timer").innerText =
     "⏱️ Zeit: " + Math.floor((Date.now()-start)/1000) + " s";
 },1000);
@@ -163,8 +155,6 @@ function hilfe(){
 }
 
 function auswerten(){
-  clearInterval(timerInt);
-
   const zeit = Math.floor((Date.now()-start)/1000);
   document.getElementById("zeit").value = zeit;
 
@@ -174,20 +164,18 @@ function auswerten(){
     punkte = 10;
   }
 
-  // Bonus
+  // Bonuspunkte (unabhängig vom Text)
   let bonuspunkte = 0;
-  const b = document.getElementById("bonusantwort").value
-    .toLowerCase()
-    .trim();
+  const b = document.getElementById("bonusantwort").value.toLowerCase().trim();
 
-  const richtig = [
+  const richtigeAntworten = [
     "leicht entzündlich",
-    "Gesundheitsgefahr ",
-    "Reizend",
-    "Umwelt und Wassergefährend",
-     ].some(w => b.includes(w));
+    "gesundheitsgefahr",
+    "reizend",
+    "umwelt und wassergefährend"
+  ];
 
-  if (richtig) {
+  if (richtigeAntworten.some(w => b.includes(w))) {
     bonuspunkte = hilfeGenutzt ? 6 : 10;
   }
 
