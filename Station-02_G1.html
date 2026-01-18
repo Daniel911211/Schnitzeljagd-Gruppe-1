@@ -47,11 +47,24 @@ button{
   background:#475569;
 }
 .hidden{display:none;}
+.hilfeBox{
+  margin-top:16px;
+  padding:12px;
+  border-radius:12px;
+  background:#1e293b;
+  text-align:center;
+}
+.hilfeBox img{
+  max-width:150px;
+  margin:10px auto;
+  display:block;
+}
 </style>
 </head>
 
 <body>
 <div class="card">
+
 <h1>📍 Station 2</h1>
 <div id="timer">⏱️ Zeit: 0 s</div>
 
@@ -62,8 +75,8 @@ target="hidden_iframe"
 onsubmit="return auswerten();">
 
 <!-- feste Werte -->
-<input type="hidden" name="entry.1841279378" value="1">
-<input type="hidden" name="entry.1611288883" value="2">
+<input type="hidden" name="entry.1841279378" value="1"> <!-- Gruppe -->
+<input type="hidden" name="entry.1611288883" value="2"> <!-- Station -->
 <input type="hidden" name="entry.476999913" id="hauptpunkte" value="0">
 <input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0">
 <input type="hidden" name="entry.1051828811" id="zeit">
@@ -77,20 +90,21 @@ Wie viele Zapfpistolen gibt es insgesamt?
 <div class="section">
 <strong>⭐ Bonusfrage (freiwillig)</strong><br>
 Welches Gefahrensymbol erkennt ihr?
-<input type="text" id="bonusantwort" name="entry.1439971772">
-</div>
-
-<div id="hilfeBox" class="section hidden">
-<strong>Hilfe:</strong><br><br>
-A: Gesundheitsschädlich<br>
-<strong>B: Leicht entzündlich</strong><br>
-C: Umweltgefährlich
+<input type="text" id="bonusantwort" name="entry.1402484045">
 </div>
 
 <button type="submit">Antworten absenden</button>
 </form>
 
 <button class="hilfe" onclick="hilfe()">🆘 Hilfe zur Bonusfrage</button>
+
+<div id="hilfeBox" class="hilfeBox hidden">
+<img src="https://daniel911211.github.io/Bilder/Leicht-Entflammbar.png">
+<p>A: Schwer entflammbar<br>
+B: Leicht entzündlich<br>
+C: Gesundheitsschädlich</p>
+</div>
+
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 </div>
 
@@ -109,27 +123,29 @@ function hilfe(){
 }
 
 function auswerten(){
-  // Zeit
   document.getElementById("zeit").value =
     Math.floor((Date.now()-start)/1000);
 
-  // Hauptfrage
+  // Hauptpunkte
   let hp = 0;
   if(document.getElementById("hauptantwort").value.trim() === "16"){
     hp = 10;
   }
   document.getElementById("hauptpunkte").value = hp;
 
-  // Bonus
+  // Bonuspunkte
   let bp = 0;
-  const b = document.getElementById("bonusantwort").value
-    .toLowerCase().trim();
+  const text = document.getElementById("bonusantwort").value.toLowerCase();
 
-  if(!hilfeGenutzt && b.includes("leicht")){
-    bp = 10;
-  }
-  if(hilfeGenutzt && b === "b"){
-    bp = 6;
+  const richtig = [
+    "leicht entzündlich",
+    "gesundheitsgefahr",
+    "reizend",
+    "umwelt"
+  ].some(w => text.includes(w));
+
+  if(richtig){
+    bp = hilfeGenutzt ? 6 : 10;
   }
 
   document.getElementById("bonuspunkte").value = bp;
