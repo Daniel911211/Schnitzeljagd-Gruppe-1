@@ -133,8 +133,11 @@ button{
 <div class="card">
 
 <!-- HEADER -->
-<h1>📍 Station 2</h1>
-<div id="timer">⏱️ Zeit: 0 s</div>
+<div id="header">
+  <h1>📍 Station 2</h1>
+  <div id="timer">⏱️ Zeit: 0 s</div>
+</div>
+
 
 <!-- FORMULAR -->
 <form
@@ -237,8 +240,8 @@ function auswerten(){
 
   document.querySelector("form").classList.add("hidden");
   document.querySelector(".hilfe").classList.add("hidden");
-  document.getElementById("timer").classList.add("hidden");
   document.getElementById("erfolg").classList.remove("hidden");
+  document.getElementById("header").classList.add("hidden");
 
   return true;
 }
