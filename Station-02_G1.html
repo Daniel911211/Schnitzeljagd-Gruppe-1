@@ -1,140 +1,69 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Schnitzeljagd – Station</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Schnitzeljagd – Station 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-      margin-top: 0;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    input[type="text"],
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
-
-    .hint {
-      font-size: 13px;
-      color: #666;
-      margin-top: 3px;
-    }
-
-    button {
-      margin-top: 25px;
-      padding: 12px;
-      width: 100%;
-      font-size: 16px;
-      background: #673ab7;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #5e35b1;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="container">
-  <h1>Schnitzeljagd – Station</h1>
-
-  <form id="stationForm">
-
-    <!-- Gruppe -->
-    <label for="gruppe">Gruppe</label>
-    <input type="number" id="gruppe" name="gruppe" required>
-
-    <!-- Station -->
-    <label for="station">Station</label>
-    <input type="number" id="station" name="station" required>
-
-    <!-- Hauptantwort -->
-    <label for="antwort">Antwort</label>
-    <input
-      type="text"
-      id="antwort"
-      name="antwort"
-      required
-      placeholder="Antwort eingeben"
-    >
-    <div class="hint">Pflichtfeld</div>
-
-    <!-- Bonusantwort -->
-    <label for="bonusantwort">Bonusantwort (freiwillig)</label>
-    <input
-      type="text"
-      id="bonusantwort"
-      name="bonusantwort"
-    >
-    <div class="hint">Optional – kein Hinweis, keine Vorgabe</div>
-
-    <!-- Bonuspunkte (wird später per Script gesetzt) -->
-    <label for="bonuspunkte">Bonuspunkte</label>
-    <input
-      type="number"
-      id="bonuspunkte"
-      name="bonuspunkte"
-      value="0"
-      readonly
-    >
-    <div class="hint">Wird automatisch vergeben</div>
-
-    <button type="submit">Absenden</button>
-
-  </form>
-</div>
-
-<script>
-  document.getElementById("stationForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const antwort = document.getElementById("antwort").value.trim();
-    const bonusantwort = document.getElementById("bonusantwort").value.trim();
-    const bonuspunkteFeld = document.getElementById("bonuspunkte");
-
-    // Beispiel-Logik (kannst du später im Apps Script ersetzen)
-    if (bonusantwort !== "") {
-      bonuspunkteFeld.value = 5;
-    } else {
-      bonuspunkteFeld.value = 0;
-    }
-
-    // Hier würdest du später an Google Forms / Apps Script übergeben
-    alert("Formular geprüft und bereit zum Senden");
-  });
-</script>
-
-</body>
-</html>
+<style>
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(135deg,#0f172a,#020617);
+  color:#e5e7eb;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.card{
+  background:rgba(2,6,23,.95);
+  border-radius:16px;
+  padding:26px;
+  max-width:420px;
+  width:100%;
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
+}
+h1{text-align:center;color:#60a5fa;margin-top:0;}
+.timer{text-align:center;margin-bottom:16px;color:#a5f3fc;}
+.section{margin-bottom:18px;}
+input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #334155;
+  background:#020617;
+  color:#e5e7eb;
+  font-size:1rem;
+  margin-top:8px;
+}
+button{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  font-weight:bold;
+  font-size:1rem;
+  cursor:pointer;
+}
+.submit{background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;}
+.hilfe{margin-top:10px;background:#475569;color:white;}
+.hidden{display:none;}
+.hilfeBox{
+  margin-top:16px;
+  padding:14px;
+  border-radius:12px;
+  background:rgba(250,204,21,.1);
+  border:1px solid rgba(250,204,21,.4);
+  color:#fde68a;
+  text-align:center;
+}
+.hilfeBox img{
+  max-width:160px;
+  margin:12px auto;
+  display:block;
+}
+.success{text-align:center;}
+.success .check{font-size:3rem;color:#22c55e;}
+.r
