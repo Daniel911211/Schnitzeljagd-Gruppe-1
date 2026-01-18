@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Schnitzeljagd – Station 1</title>
+  <title>Schnitzeljagd – Station 1 (Gruppe 1)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -33,18 +33,22 @@
       text-align: center;
     }
 
-    .hidden {
-      display: none;
+    .timer {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #a5f3fc;
     }
 
-    .rules {
-      font-size: 0.95rem;
-      color: #cbd5f5;
-      margin-bottom: 20px;
-    }
-
-    .rules ul {
-      padding-left: 18px;
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #020617;
+      color: #e5e7eb;
+      margin-bottom: 16px;
     }
 
     button {
@@ -57,25 +61,10 @@
       cursor: pointer;
       background: linear-gradient(135deg, #3b82f6, #2563eb);
       color: white;
-      margin-top: 10px;
     }
 
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #334155;
-      background: #020617;
-      color: #e5e7eb;
-      margin-top: 10px;
-    }
-
-    .timer {
-      text-align: center;
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: #a5f3fc;
+    .hidden {
+      display: none;
     }
 
     .success {
@@ -102,70 +91,81 @@
 
 <div class="card">
 
-  <!-- BEGRÜSSUNG -->
-  <div id="welcome">
-    <h1>🚒 Station 1</h1>
-
-    <div class="rules">
-      <strong>Willkommen zur Schnitzeljagd!</strong>
-      <ul>
-        <li>Lest jede Aufgabe aufmerksam.</li>
-        <li>Die Zeit startet erst nach Klick auf „Start“.</li>
-        <li>Antworten ehrlich und gemeinsam im Team.</li>
-        <li>Fairplay steht im Vordergrund.</li>
-      </ul>
-    </div>
-
-    <button onclick="startStation()">▶️ Station starten</button>
-  </div>
-
-  <!-- FRAGE -->
-  <div id="question" class="hidden">
+  <!-- FRAGE + FORMULAR -->
+  <div id="frage">
+    <h1>📍 Station 1</h1>
     <div class="timer" id="timer">⏱️ Zeit: 0 s</div>
 
-    <h1>❓ Frage</h1>
-    <p>Wie lautet die europäische Notrufnummer?</p>
+    <p><strong>❓ Frage:</strong><br>
+      Wie lautet die europäische Notrufnummer?
+    </p>
 
-    <input type="text" id="answer" placeholder="Antwort eingeben">
-    <button onclick="submitAnswer()">Antwort absenden</button>
+    <form
+      action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
+      method="POST"
+      target="hidden_iframe"
+      onsubmit="return absenden();"
+    >
+
+      <!-- feste Werte -->
+      <input type="hidden" name="entry.1841279378" value="1"> <!-- Gruppe -->
+      <input type="hidden" name="entry.1611288883" value="1"> <!-- Station -->
+      <input type="hidden" name="entry.476999913" id="punkte" value="0">
+      <input type="hidden" name="entry.1051828811" id="zeit" value="">
+
+      <!-- Antwort -->
+      <input
+        type="text"
+        id="antwort"
+        name="entry.1865983702"
+        placeholder="Antwort eingeben"
+        required
+      >
+
+      <button type="submit">Antwort absenden</button>
+    </form>
+
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
   </div>
 
-  <!-- ERFOLG + NÄCHSTES RÄTSEL -->
-  <div id="success" class="hidden success">
+  <!-- ERFOLG + RÄTSEL -->
+  <div id="erfolg" class="hidden success">
     <div class="check">✅</div>
     <h2>Antwort gesendet!</h2>
-    <p>Gute Arbeit – weiter geht’s 👏</p>
+    <p>Gut gemacht – weiter zur nächsten Station 👏</p>
 
     <div class="next">
       <strong>🧩 Rätsel zur nächsten Station</strong><br>
-      <em>(Platzhalter – Wegbeschreibung folgt)</em>
+      <em>(Wegbeschreibung folgt)</em>
     </div>
   </div>
 
 </div>
 
 <script>
-  let startTime;
-  let timerInterval;
-
-  function startStation() {
-    document.getElementById("welcome").classList.add("hidden");
-    document.getElementById("question").classList.remove("hidden");
-
-    startTime = Date.now();
-    timerInterval = setInterval(updateTimer, 1000);
-  }
+  const startZeit = Date.now();
+  let timerInt = setInterval(updateTimer, 1000);
 
   function updateTimer() {
-    const seconds = Math.floor((Date.now() - startTime) / 1000);
-    document.getElementById("timer").innerText = "⏱️ Zeit: " + seconds + " s";
+    const sek = Math.floor((Date.now() - startZeit) / 1000);
+    document.getElementById("timer").innerText = "⏱️ Zeit: " + sek + " s";
   }
 
-  function submitAnswer() {
-    clearInterval(timerInterval);
+  function absenden() {
+    clearInterval(timerInt);
 
-    document.getElementById("question").classList.add("hidden");
-    document.getElementById("success").classList.remove("hidden");
+    const antwort = document.getElementById("antwort").value.trim();
+
+    document.getElementById("punkte").value =
+      (antwort === "112") ? "10" : "0";
+
+    document.getElementById("zeit").value =
+      Math.floor((Date.now() - startZeit) / 1000);
+
+    document.getElementById("frage").classList.add("hidden");
+    document.getElementById("erfolg").classList.remove("hidden");
+
+    return true; // Formular wird an Google gesendet
   }
 </script>
 
