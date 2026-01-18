@@ -95,15 +95,6 @@
       margin: 12px auto;
       display: block;
     }
-
-    .success {
-      text-align: center;
-    }
-
-    .check {
-      font-size: 3rem;
-      color: #22c55e;
-    }
   </style>
 </head>
 
@@ -115,19 +106,21 @@
   <div class="timer" id="timer">⏱️ Zeit: 0 s</div>
 
   <form
-    action="https://docs.google.com/forms/d/e/DEIN_FORMULAR_LINK/formResponse"
+    action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
     method="POST"
     target="hidden_iframe"
     onsubmit="return auswerten();"
   >
 
     <!-- feste Werte -->
-    <input type="hidden" name="entry.GRUPPE" value="1">
-    <input type="hidden" name="entry.STATION" value="2">
-    <input type="hidden" name="entry.PUNKTE_HAUPT" id="punkteHaupt" value="0">
-    <input type="hidden" name="entry.PUNKTE_BONUS" id="punkteBonus" value="0">
-    <input type="hidden" name="entry.ZEIT" id="zeit" value="">
-    <input type="hidden" name="entry.BONUSANTWORT" id="bonusAntwortForm" value="">
+    <input type="hidden" name="entry.1841279378" value="1"> <!-- Gruppe -->
+    <input type="hidden" name="entry.1611288883" value="2"> <!-- Station -->
+
+    <input type="hidden" name="entry.476999913" id="punkteHaupt">
+    <input type="hidden" name="entry.1775227705" id="punkteBonus">
+    <input type="hidden" name="entry.1051828811" id="zeit">
+    <input type="hidden" name="entry.1865983702" id="hauptAntwortForm">
+    <input type="hidden" name="entry.1402484045" id="bonusAntwortForm">
 
     <!-- Hauptaufgabe -->
     <div class="section">
@@ -185,13 +178,10 @@
     let punkteHaupt = 0;
     let punkteBonus = 0;
 
-    if (document.getElementById("hauptantwort").value.trim() === "16") {
-      punkteHaupt = 10;
-    }
+    const haupt = document.getElementById("hauptantwort").value.trim();
+    const bonus = document.getElementById("bonusantwort").value.toLowerCase().trim();
 
-    const bonus = document.getElementById("bonusantwort").value
-      .toLowerCase()
-      .trim();
+    if (haupt === "16") punkteHaupt = 10;
 
     if (
       bonus.includes("entflamm") ||
@@ -203,8 +193,8 @@
 
     document.getElementById("punkteHaupt").value = punkteHaupt;
     document.getElementById("punkteBonus").value = punkteBonus;
-    document.getElementById("bonusAntwortForm").value =
-      document.getElementById("bonusantwort").value;
+    document.getElementById("hauptAntwortForm").value = haupt;
+    document.getElementById("bonusAntwortForm").value = bonus;
 
     return true;
   }
