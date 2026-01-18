@@ -2,11 +2,12 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Bonus-Test</title>
+<title>Schnitzeljagd – Station 2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
+  margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:#020617;
   color:#e5e7eb;
@@ -15,80 +16,124 @@ body{
   align-items:center;
   min-height:100vh;
 }
-.box{
+.card{
   background:#0f172a;
   padding:24px;
-  border-radius:12px;
-  width:320px;
+  border-radius:16px;
+  width:360px;
 }
-input,button{
+h1{text-align:center;color:#60a5fa;}
+.section{margin-bottom:18px;}
+input{
   width:100%;
-  padding:10px;
-  margin-top:10px;
-  border-radius:8px;
-  border:none;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #334155;
+  background:#020617;
+  color:#e5e7eb;
 }
 button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
   background:#2563eb;
   color:white;
   font-weight:bold;
   cursor:pointer;
 }
 .hilfe{
+  margin-top:10px;
   background:#475569;
 }
-.result{
-  margin-top:16px;
-  background:#020617;
-  padding:10px;
-  border-radius:8px;
-}
+.hidden{display:none;}
 </style>
 </head>
 
 <body>
+<div class="card">
+<h1>📍 Station 2</h1>
+<div id="timer">⏱️ Zeit: 0 s</div>
 
-<div class="box">
-  <h2>⭐ Bonusaufgabe</h2>
+<form
+action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
+method="POST"
+target="hidden_iframe"
+onsubmit="return auswerten();">
 
-  <label>Bonusantwort (frei):</label>
-  <input type="text" id="bonusantwort">
+<!-- feste Werte -->
+<input type="hidden" name="entry.1841279378" value="1">
+<input type="hidden" name="entry.1611288883" value="2">
+<input type="hidden" name="entry.476999913" id="hauptpunkte" value="0">
+<input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0">
+<input type="hidden" name="entry.1051828811" id="zeit">
 
-  <button onclick="auswerten()">Auswerten</button>
-  <button class="hilfe" onclick="hilfe()">🆘 Hilfe benutzt</button>
+<div class="section">
+<strong>🧩 Hauptfrage</strong><br>
+Wie viele Zapfpistolen gibt es insgesamt?
+<input type="text" id="hauptantwort" name="entry.1865983702" required>
+</div>
 
-  <div class="result">
-    <div><strong>Gespeicherte Bonusantwort:</strong> <span id="outText">–</span></div>
-    <div><strong>Bonuspunkte:</strong> <span id="outPoints">0</span></div>
-  </div>
+<div class="section">
+<strong>⭐ Bonusfrage (freiwillig)</strong><br>
+Welches Gefahrensymbol erkennt ihr?
+<input type="text" id="bonusantwort" name="entry.1439971772">
+</div>
+
+<div id="hilfeBox" class="section hidden">
+<strong>Hilfe:</strong><br><br>
+A: Gesundheitsschädlich<br>
+<strong>B: Leicht entzündlich</strong><br>
+C: Umweltgefährlich
+</div>
+
+<button type="submit">Antworten absenden</button>
+</form>
+
+<button class="hilfe" onclick="hilfe()">🆘 Hilfe zur Bonusfrage</button>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 </div>
 
 <script>
+const start = Date.now();
 let hilfeGenutzt = false;
+
+setInterval(()=>{
+  document.getElementById("timer").innerText =
+    "⏱️ Zeit: " + Math.floor((Date.now()-start)/1000) + " s";
+},1000);
 
 function hilfe(){
   hilfeGenutzt = true;
-  alert("Hilfe wurde genutzt");
+  document.getElementById("hilfeBox").classList.remove("hidden");
 }
 
 function auswerten(){
-  const text = document.getElementById("bonusantwort").value.trim().toLowerCase();
+  // Zeit
+  document.getElementById("zeit").value =
+    Math.floor((Date.now()-start)/1000);
 
-  const richtigeAntworten = [
-    "leicht entzündlich",
-    "gesundheitsgefahr",
-    "reizend",
-    "umwelt"
-  ];
+  // Hauptfrage
+  let hp = 0;
+  if(document.getElementById("hauptantwort").value.trim() === "16"){
+    hp = 10;
+  }
+  document.getElementById("hauptpunkte").value = hp;
 
-  let punkte = 0;
-  if (richtigeAntworten.some(w => text.includes(w))) {
-    punkte = hilfeGenutzt ? 6 : 10;
+  // Bonus
+  let bp = 0;
+  const b = document.getElementById("bonusantwort").value
+    .toLowerCase().trim();
+
+  if(!hilfeGenutzt && b.includes("leicht")){
+    bp = 10;
+  }
+  if(hilfeGenutzt && b === "b"){
+    bp = 6;
   }
 
-  // Anzeige (Simulation von Tabellenwerten)
-  document.getElementById("outText").innerText = text || "(leer)";
-  document.getElementById("outPoints").innerText = punkte;
+  document.getElementById("bonuspunkte").value = bp;
+  return true;
 }
 </script>
 
