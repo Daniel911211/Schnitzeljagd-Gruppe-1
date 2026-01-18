@@ -136,6 +136,36 @@ Hinweis: Gib den Buchstaben oder die Bedeutung ein.
 </form>
 
 <button class="hilfe" onclick="hilfe()">🆘 Hilfe zur Bonusfrage</button>
+  
+  <!-- ERFOLG -->
+<div id="erfolg" class="hidden" style="text-align:center;">
+
+  <div style="font-size:48px; color:#22c55e; margin-bottom:12px;">✅</div>
+
+  <h2>Antwort gesendet!</h2>
+
+  <div style="
+    margin-top:16px;
+    padding:16px;
+    border-radius:14px;
+    background:rgba(34,197,94,0.1);
+    border:1px solid rgba(34,197,94,0.4);
+    color:#bbf7d0;
+  ">
+    🧩 <strong>Rätsel zur nächsten Station</strong><br><br>
+
+    Kein Wohnort,<br>
+    kein Ziel zum Bleiben.<br><br>
+
+    Unter einem großen Dach<br>
+    wird Energie weitergegeben.<br><br>
+
+    Findet den Ort,<br>
+    an dem Fahrzeuge pausieren.
+  </div>
+
+</div>
+
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 </div>
 
@@ -174,7 +204,12 @@ function auswerten(){
     bp = 6;
   }
 
+   // UI umschalten
   document.getElementById("bonuspunkte").value = bp;
+  document.querySelector("form").classList.add("hidden");
+  document.querySelector(".hilfe").classList.add("hidden");
+  document.getElementById("erfolg").classList.remove("hidden");
+
   return true;
 }
 </script>
