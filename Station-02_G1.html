@@ -21,6 +21,7 @@ body{
   padding:24px;
   border-radius:16px;
   width:360px;
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
 }
 h1{text-align:center;color:#60a5fa;}
 .section{margin-bottom:18px;}
@@ -47,6 +48,30 @@ button{
   background:#475569;
 }
 .hidden{display:none;}
+
+/* neue Hilfebox */
+.hilfeBox{
+  margin-top:18px;
+  padding:16px;
+  border-radius:14px;
+  background:rgba(250,204,21,0.08);
+  border:1px solid rgba(250,204,21,0.35);
+  text-align:center;
+}
+.hilfeBox img{
+  max-width:140px;
+  margin:12px auto;
+  display:block;
+}
+.hilfeBox .answers{
+  margin-top:10px;
+  line-height:1.6;
+}
+.hilfeBox .hint{
+  margin-top:10px;
+  font-size:0.85rem;
+  color:#fde68a;
+}
 </style>
 </head>
 
@@ -80,11 +105,20 @@ Welches Gefahrensymbol erkennt ihr?
 <input type="text" id="bonusantwort" name="entry.1439971772">
 </div>
 
-<div id="hilfeBox" class="section hidden">
-<strong>Hilfe:</strong><br><br>
+<div id="hilfeBox" class="hilfeBox hidden">
+<strong>Hilfe – Gefahrensymbol</strong>
+
+<img src="https://daniel911211.github.io/Bilder/Leicht-Entflammbar.png" alt="Gefahrensymbol leicht entzündlich">
+
+<div class="answers">
 A: Gesundheitsschädlich<br>
 B: Leicht entzündlich<br>
 C: Umweltgefährlich
+</div>
+
+<div class="hint">
+Hinweis: Gib den Buchstaben oder die Bedeutung ein.
+</div>
 </div>
 
 <button type="submit">Antworten absenden</button>
@@ -109,18 +143,15 @@ function hilfe(){
 }
 
 function auswerten(){
-  // Zeit
   document.getElementById("zeit").value =
     Math.floor((Date.now()-start)/1000);
 
-  // Hauptfrage
   let hp = 0;
   if(document.getElementById("hauptantwort").value.trim() === "16"){
     hp = 10;
   }
   document.getElementById("hauptpunkte").value = hp;
 
-  // Bonus
   let bp = 0;
   const b = document.getElementById("bonusantwort").value
     .toLowerCase().trim();
