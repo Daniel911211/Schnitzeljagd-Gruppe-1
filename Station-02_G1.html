@@ -74,12 +74,9 @@ button{
 </head>
 
 <body>
-
 <div class="card">
 
-<!-- SPIEL -->
 <div id="spiel">
-
 <h1>📍 Station 2</h1>
 <div class="timer" id="timer">⏱️ Zeit: 0 s</div>
 
@@ -90,12 +87,11 @@ target="hidden_iframe"
 onsubmit="return auswerten();">
 
 <!-- feste Felder -->
-<input type="hidden" name="entry.1841279378" value="1"><!-- Gruppe -->
-<input type="hidden" name="entry.1611288883" value="2"><!-- Station -->
-<input type="hidden" name="entry.476999913" id="punkte" value="0"><!-- Punkte -->
-<input type="hidden" name="entry.1051828811" id="zeit" value=""><!-- Zeit -->
-<input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0"><!-- Bonuspunkte -->
-
+<input type="hidden" name="entry.1841279378" value="1">
+<input type="hidden" name="entry.1611288883" value="2">
+<input type="hidden" name="entry.476999913" id="punkte" value="0">
+<input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0">
+<input type="hidden" name="entry.1051828811" id="zeit" value="">
 
 <div class="section">
 <strong>🧩 Hauptaufgabe</strong><br>
@@ -105,7 +101,6 @@ Wie viele <strong>Zapfpistolen</strong> gibt es insgesamt?
   id="hauptantwort"
   name="entry.1865983702"
   required>
-
 </div>
 
 <div class="section">
@@ -115,8 +110,7 @@ Welches Gefahrensymbol erkennt ihr?
   type="text"
   id="bonusantwort"
   name="entry.1402484045"
-  placeholder="Bonusantwort eingeben">
-
+  placeholder="z. B. leicht entzündlich">
 </div>
 
 <button type="submit" class="submit">Antworten absenden</button>
@@ -134,10 +128,8 @@ A: Schwer entflammbar<br>
 C: Gesundheitsschädlich
 </p>
 </div>
-
 </div>
 
-<!-- ERFOLG -->
 <div id="erfolg" class="success hidden">
 <div class="check">✅</div>
 <h2>Antwort gesendet!</h2>
@@ -154,7 +146,6 @@ an dem Fahrzeuge pausieren.
 </div>
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
-
 </div>
 
 <script>
@@ -163,7 +154,7 @@ let hilfeGenutzt = false;
 
 const timerInt = setInterval(()=>{
   document.getElementById("timer").innerText =
-    "⏱️ Zeit: "+Math.floor((Date.now()-start)/1000)+" s";
+    "⏱️ Zeit: " + Math.floor((Date.now()-start)/1000) + " s";
 },1000);
 
 function hilfe(){
@@ -177,13 +168,28 @@ function auswerten(){
   const zeit = Math.floor((Date.now()-start)/1000);
   document.getElementById("zeit").value = zeit;
 
+  // Hauptpunkte
   let punkte = 0;
-  const haupt = document.getElementById("hauptantwort").value.trim();
-  if(haupt === "16"){ punkte = 10; }
+  if (document.getElementById("hauptantwort").value.trim() === "16") {
+    punkte = 10;
+  }
 
+  // Bonus
   let bonuspunkte = 0;
-  const b = document.getElementById("bonusantwort").value.toLowerCase();
-  if (b.includes("entzünd") || b.includes("entzuend")) {
+  const b = document.getElementById("bonusantwort").value
+    .toLowerCase()
+    .trim();
+
+  const richtig = [
+    "leicht entzündlich",
+    "entzündlich",
+    "entzuendlich",
+    "flammbar",
+    "leicht flammbar",
+    "ghs02"
+  ].some(w => b.includes(w));
+
+  if (richtig) {
     bonuspunkte = hilfeGenutzt ? 6 : 10;
   }
 
@@ -196,7 +202,6 @@ function auswerten(){
 
   return true;
 }
-
 </script>
 
 </body>
