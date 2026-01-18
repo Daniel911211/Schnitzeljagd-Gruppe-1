@@ -35,7 +35,7 @@
 
     .timer {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       font-size: 1.1rem;
       color: #a5f3fc;
     }
@@ -91,7 +91,7 @@
 
 <div class="card">
 
-  <!-- FRAGE + FORMULAR -->
+  <!-- FRAGE -->
   <div id="frage">
     <h1>📍 Station 1</h1>
     <div class="timer" id="timer">⏱️ Zeit: 0 s</div>
@@ -108,12 +108,11 @@
     >
 
       <!-- feste Werte -->
-      <input type="hidden" name="entry.1841279378" value="1"> <!-- Gruppe -->
-      <input type="hidden" name="entry.1611288883" value="1"> <!-- Station -->
+      <input type="hidden" name="entry.1841279378" value="1">
+      <input type="hidden" name="entry.1611288883" value="1">
       <input type="hidden" name="entry.476999913" id="punkte" value="0">
       <input type="hidden" name="entry.1051828811" id="zeit" value="">
 
-      <!-- Antwort -->
       <input
         type="text"
         id="antwort"
@@ -129,33 +128,35 @@
   </div>
 
   <!-- ERFOLG + RÄTSEL -->
-  <div class="next">
-  <strong>🧩 Rätsel zur nächsten Station</strong><br><br>
+  <div id="erfolg" class="hidden success">
+    <div class="check">✅</div>
+    <h2>Antwort gesendet!</h2>
 
-  Kein Wohnort,<br>
-  kein Ziel zum Bleiben.<br><br>
+    <div class="next">
+      <strong>🧩 Rätsel zur nächsten Station</strong><br><br>
 
-  Unter einem großen Dach<br>
-  wird Energie weitergegeben.<br><br>
+      Kein Wohnort,<br>
+      kein Ziel zum Bleiben.<br><br>
 
-  Findet den Ort,<br>
-  an dem Fahrzeuge pausieren.
-</div>
+      Unter einem großen Dach<br>
+      wird Energie weitergegeben.<br><br>
 
+      Findet den Ort,<br>
+      an dem Fahrzeuge pausieren.
+    </div>
+  </div>
 
 </div>
 
 <script>
   const startZeit = Date.now();
-  let timerInt = setInterval(updateTimer, 1000);
-
-  function updateTimer() {
+  const timer = setInterval(() => {
     const sek = Math.floor((Date.now() - startZeit) / 1000);
     document.getElementById("timer").innerText = "⏱️ Zeit: " + sek + " s";
-  }
+  }, 1000);
 
   function absenden() {
-    clearInterval(timerInt);
+    clearInterval(timer);
 
     const antwort = document.getElementById("antwort").value.trim();
 
@@ -168,7 +169,7 @@
     document.getElementById("frage").classList.add("hidden");
     document.getElementById("erfolg").classList.remove("hidden");
 
-    return true; // Formular wird an Google gesendet
+    return true;
   }
 </script>
 
