@@ -15,31 +15,56 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:20px
+  padding:20px;
 }
 .card{
-  background:rgba(2,6,23,.9);
+  background:rgba(2,6,23,.95);
   border-radius:16px;
   padding:26px;
   max-width:420px;
   width:100%;
-  box-shadow:0 20px 40px rgba(0,0,0,.5)
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
 }
-.hidden{display:none}
-h1{text-align:center;color:#60a5fa;margin-top:0}
-.timer{text-align:center;color:#a5f3fc;margin-bottom:16px}
-input,button{
+h1{
+  text-align:center;
+  color:#60a5fa;
+  margin-top:0;
+}
+.timer{
+  text-align:center;
+  margin-bottom:16px;
+  color:#a5f3fc;
+}
+.section{margin-bottom:18px;}
+input{
   width:100%;
   padding:12px;
-  margin-top:10px;
   border-radius:10px;
-  border:none;
-  font-size:1rem
+  border:1px solid #334155;
+  background:#020617;
+  color:#e5e7eb;
+  font-size:1rem;
+  margin-top:8px;
 }
-input{background:#020617;color:#e5e7eb;border:1px solid #334155}
-button{font-weight:bold;cursor:pointer}
-.submit{background:linear-gradient(135deg,#3b82f6,#2563eb);color:white}
-.hilfeBtn{background:#475569;color:white}
+button{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  font-weight:bold;
+  font-size:1rem;
+  cursor:pointer;
+}
+.submit{
+  background:linear-gradient(135deg,#3b82f6,#2563eb);
+  color:white;
+}
+.hilfe{
+  margin-top:10px;
+  background:#475569;
+  color:white;
+}
+.hidden{display:none;}
 .hilfeBox{
   margin-top:16px;
   padding:14px;
@@ -47,18 +72,27 @@ button{font-weight:bold;cursor:pointer}
   background:rgba(250,204,21,.1);
   border:1px solid rgba(250,204,21,.4);
   color:#fde68a;
-  text-align:center
+  text-align:center;
 }
-.hilfeBox img{max-width:160px;margin:12px auto;display:block}
-.success{text-align:center;color:#22c55e;font-size:1.2rem;margin-top:20px}
-.rätsel{
-  margin-top:20px;
-  padding:14px;
+.hilfeBox img{
+  max-width:160px;
+  display:block;
+  margin:12px auto;
+}
+.success{
+  text-align:center;
+}
+.success .check{
+  font-size:3rem;
+  color:#22c55e;
+}
+.riddle{
+  margin-top:16px;
+  padding:16px;
   border-radius:12px;
   background:rgba(34,197,94,.1);
   border:1px solid rgba(34,197,94,.4);
   color:#bbf7d0;
-  text-align:center
 }
 </style>
 </head>
@@ -67,47 +101,46 @@ button{font-weight:bold;cursor:pointer}
 
 <div class="card">
 
+<div id="spiel">
+
 <h1>📍 Station 2</h1>
 <div class="timer" id="timer">⏱️ Zeit: 0 s</div>
 
-<form id="formular"
- action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
- method="POST"
- target="hidden_iframe"
- onsubmit="return senden();">
+<form
+action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
+method="POST"
+target="hidden_iframe"
+onsubmit="return auswerten();">
 
-<!-- feste Formularfelder -->
-<input type="hidden" name="entry.1841279378" value="1"> <!-- Gruppe -->
-<input type="hidden" name="entry.1611288883" value="2"> <!-- Station -->
-<input type="hidden" name="entry.476999913" id="punkte">
-<input type="hidden" name="entry.1775227705" id="bonuspunkte">
-<input type="hidden" name="entry.1051828811" id="zeit">
+<!-- feste Felder -->
+<input type="hidden" name="entry.1841279378" value="1">
+<input type="hidden" name="entry.1611288883" value="2">
+<input type="hidden" name="entry.476999913" id="punkte" value="0">
+<input type="hidden" name="entry.1051828811" id="zeit" value="">
+<input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0">
 
-<!-- Hauptaufgabe -->
-<p><strong>🧩 Hauptaufgabe</strong><br>
-Wie viele Zapfpistolen gibt es an dieser Tankstelle?</p>
+<!-- Antworten -->
+<input type="hidden" name="entry.1865983702" id="antwortForm">
+<input type="hidden" name="entry.1402484045" id="bonusAntwortForm">
 
-<input
-  id="antwort"
-  name="entry.1865983702"
-  placeholder="Anzahl Zapfpistolen"
-  required>
+<div class="section">
+<strong>🧩 Hauptaufgabe</strong><br>
+Wie viele <strong>Zapfpistolen</strong> gibt es insgesamt?
+<input type="text" id="hauptantwort" required>
+</div>
 
-<!-- Bonusaufgabe -->
-<p><strong>⭐ Bonusaufgabe</strong><br>
-Welches Gefahrensymbol erkennt ihr?</p>
+<div class="section">
+<strong>⭐ Bonusaufgabe</strong><br>
+Welches Gefahrensymbol erkennt ihr?
+<input type="text" id="bonusantwort">
+</div>
 
-<input
-  id="bonus"
-  name="entry.1402484045"
-  placeholder="Bonusantwort (frei eingeben)">
-
-<button type="submit" class="submit">Antwort absenden</button>
+<button type="submit" class="submit">Antworten absenden</button>
 </form>
 
-<button class="hilfeBtn" onclick="hilfe()">🆘 Hilfe zur Bonusaufgabe</button>
+<button class="hilfe" id="hilfeBtn" onclick="hilfe()">🆘 Hilfe zur Bonusaufgabe</button>
 
-<div id="hilfeBox" class="hilfeBox hidden">
+<div class="hilfeBox hidden" id="hilfeBox">
 <strong>Gefahrensymbol</strong>
 <img src="https://daniel911211.github.io/Bilder/Leicht-Entflammbar.png">
 <p>Was bedeutet dieses Symbol?</p>
@@ -118,12 +151,14 @@ C: Gesundheitsschädlich
 </p>
 </div>
 
-<div id="success" class="success hidden">
-✅ Antwort gesendet!
 </div>
 
-<div id="rätsel" class="rätsel hidden">
-<strong>🧩 Rätsel zur nächsten Station</strong><br><br>
+<div id="erfolg" class="success hidden">
+<div class="check">✅</div>
+<h2>Antwort gesendet!</h2>
+
+<div class="riddle">
+🧩 <strong>Rätsel zur nächsten Station</strong><br><br>
 Kein Wohnort,<br>
 kein Ziel zum Bleiben.<br><br>
 Unter einem großen Dach<br>
@@ -131,46 +166,51 @@ wird Energie weitergegeben.<br><br>
 Findet den Ort,<br>
 an dem Fahrzeuge pausieren.
 </div>
+</div>
 
-<iframe name="hidden_iframe" style="display:none"></iframe>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 
 </div>
 
 <script>
-let start = Date.now();
-let hilfeGenutzt = false;
+const start = Date.now();
+let hilfeGenutzt=false;
 
 setInterval(()=>{
-  timer.innerText="⏱️ Zeit: "+Math.floor((Date.now()-start)/1000)+" s";
+  document.getElementById("timer").innerText =
+    "⏱️ Zeit: "+Math.floor((Date.now()-start)/1000)+" s";
 },1000);
 
 function hilfe(){
+  hilfeGenutzt=true;
   document.getElementById("hilfeBox").classList.remove("hidden");
-  hilfeGenutzt = true;
 }
 
-function senden(){
-  const zeitW = Math.floor((Date.now()-start)/1000);
-  zeit.value = zeitW;
+function auswerten(){
+  const zeit=Math.floor((Date.now()-start)/1000);
+  document.getElementById("zeit").value=zeit;
 
-  const haupt = antwort.value.trim();
-  const bonusTxt = bonus.value.toLowerCase();
-
-  punkte.value = (haupt === "16") ? 10 : 0;
-
-  if(
-    bonusTxt.includes("entflamm") ||
-    bonusTxt.includes("entzünd") ||
-    bonusTxt.includes("flamme")
-  ){
-    bonuspunkte.value = hilfeGenutzt ? 6 : 10;
-  } else {
-    bonuspunkte.value = 0;
+  let punkte=0;
+  if(document.getElementById("hauptantwort").value.trim()==="16"){
+    punkte=10;
   }
 
-  formular.classList.add("hidden");
-  success.classList.remove("hidden");
-  rätsel.classList.remove("hidden");
+  let bonus=0;
+  const b=document.getElementById("bonusantwort").value.toLowerCase();
+  if(b.includes("entflamm")){
+    bonus=hilfeGenutzt?6:10;
+  }
+
+  document.getElementById("punkte").value=punkte;
+  document.getElementById("bonuspunkte").value=bonus;
+  document.getElementById("antwortForm").value=
+    document.getElementById("hauptantwort").value;
+  document.getElementById("bonusAntwortForm").value=
+    document.getElementById("bonusantwort").value;
+
+  // UI umschalten
+  document.getElementById("spiel").classList.add("hidden");
+  document.getElementById("erfolg").classList.remove("hidden");
 
   return true;
 }
