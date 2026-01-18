@@ -7,25 +7,68 @@
 
 <style>
 body{
-  margin:0;font-family:Arial;background:linear-gradient(135deg,#0f172a,#020617);
-  color:#e5e7eb;min-height:100vh;display:flex;justify-content:center;align-items:center
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(135deg,#0f172a,#020617);
+  color:#e5e7eb;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px
 }
 .card{
-  background:#020617e6;border-radius:14px;padding:24px;max-width:420px;width:100%
+  background:rgba(2,6,23,.9);
+  border-radius:16px;
+  padding:26px;
+  max-width:420px;
+  width:100%;
+  box-shadow:0 20px 40px rgba(0,0,0,.5)
 }
 .hidden{display:none}
-button,input{width:100%;margin-top:10px;padding:12px;border-radius:10px;border:none}
-button{background:#2563eb;color:white;font-weight:bold}
-.hilfe{background:#475569}
-.hilfeBox{margin-top:12px;padding:12px;border:1px solid #fde68a;color:#fde68a}
+h1{text-align:center;color:#60a5fa;margin-top:0}
+.timer{text-align:center;color:#a5f3fc;margin-bottom:16px}
+input,button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:10px;
+  border:none;
+  font-size:1rem
+}
+input{background:#020617;color:#e5e7eb;border:1px solid #334155}
+button{font-weight:bold;cursor:pointer}
+.submit{background:linear-gradient(135deg,#3b82f6,#2563eb);color:white}
+.hilfeBtn{background:#475569;color:white}
+.hilfeBox{
+  margin-top:16px;
+  padding:14px;
+  border-radius:12px;
+  background:rgba(250,204,21,.1);
+  border:1px solid rgba(250,204,21,.4);
+  color:#fde68a;
+  text-align:center
+}
+.hilfeBox img{max-width:160px;margin:12px auto;display:block}
+.success{text-align:center;color:#22c55e;font-size:1.2rem;margin-top:20px}
+.rätsel{
+  margin-top:20px;
+  padding:14px;
+  border-radius:12px;
+  background:rgba(34,197,94,.1);
+  border:1px solid rgba(34,197,94,.4);
+  color:#bbf7d0;
+  text-align:center
+}
 </style>
 </head>
 
 <body>
+
 <div class="card">
 
-<h2>📍 Station 2</h2>
-<div id="timer">⏱️ Zeit: 0 s</div>
+<h1>📍 Station 2</h1>
+<div class="timer" id="timer">⏱️ Zeit: 0 s</div>
 
 <form id="formular"
  action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
@@ -33,35 +76,60 @@ button{background:#2563eb;color:white;font-weight:bold}
  target="hidden_iframe"
  onsubmit="return senden();">
 
-<!-- Google Pflichtfelder -->
-<input type="hidden" name="entry.1841279378" value="1">
-<input type="hidden" name="entry.1611288883" value="2">
+<!-- feste Formularfelder -->
+<input type="hidden" name="entry.1841279378" value="1"> <!-- Gruppe -->
+<input type="hidden" name="entry.1611288883" value="2"> <!-- Station -->
 <input type="hidden" name="entry.476999913" id="punkte">
 <input type="hidden" name="entry.1775227705" id="bonuspunkte">
 <input type="hidden" name="entry.1051828811" id="zeit">
-<input type="hidden" name="entry.1865983702" id="antwortForm">
-<input type="hidden" name="entry.1402484045" id="bonusForm">
 
-<p>🧩 Wie viele Zapfpistolen gibt es?</p>
-<input id="antwort" placeholder="Anzahl Zapfpistolen" required>
+<!-- Hauptaufgabe -->
+<p><strong>🧩 Hauptaufgabe</strong><br>
+Wie viele Zapfpistolen gibt es an dieser Tankstelle?</p>
 
-<p>⭐ Bonusantwort (Gefahrensymbol)</p>
-<input id="bonus" placeholder="frei eingeben">
+<input
+  id="antwort"
+  name="entry.1865983702"
+  placeholder="Anzahl Zapfpistolen"
+  required>
 
-<button type="submit">Antwort absenden</button>
+<!-- Bonusaufgabe -->
+<p><strong>⭐ Bonusaufgabe</strong><br>
+Welches Gefahrensymbol erkennt ihr?</p>
+
+<input
+  id="bonus"
+  name="entry.1402484045"
+  placeholder="Bonusantwort (frei eingeben)">
+
+<button type="submit" class="submit">Antwort absenden</button>
 </form>
 
-<button class="hilfe" onclick="hilfe()">🆘 Hilfe</button>
+<button class="hilfeBtn" onclick="hilfe()">🆘 Hilfe zur Bonusaufgabe</button>
 
-<div id="hilfe" class="hilfeBox hidden">
-<img src="https://daniel911211.github.io/Bilder/Leicht-Entflammbar.png" width="140"><br>
+<div id="hilfeBox" class="hilfeBox hidden">
+<strong>Gefahrensymbol</strong>
+<img src="https://daniel911211.github.io/Bilder/Leicht-Entflammbar.png">
+<p>Was bedeutet dieses Symbol?</p>
+<p>
 A: Schwer entflammbar<br>
-<b>B: Leicht entflammbar</b><br>
+<strong>B: Leicht entflammbar</strong><br>
 C: Gesundheitsschädlich
+</p>
 </div>
 
-<div id="ok" class="hidden">
-<h3 style="color:#22c55e;text-align:center">✅ Antwort gesendet!</h3>
+<div id="success" class="success hidden">
+✅ Antwort gesendet!
+</div>
+
+<div id="rätsel" class="rätsel hidden">
+<strong>🧩 Rätsel zur nächsten Station</strong><br><br>
+Kein Wohnort,<br>
+kein Ziel zum Bleiben.<br><br>
+Unter einem großen Dach<br>
+wird Energie weitergegeben.<br><br>
+Findet den Ort,<br>
+an dem Fahrzeuge pausieren.
 </div>
 
 <iframe name="hidden_iframe" style="display:none"></iframe>
@@ -69,31 +137,40 @@ C: Gesundheitsschädlich
 </div>
 
 <script>
-let start=Date.now(),hilfeGenutzt=false;
-setInterval(()=>timer.innerText="⏱️ Zeit: "+Math.floor((Date.now()-start)/1000)+" s",1000);
+let start = Date.now();
+let hilfeGenutzt = false;
+
+setInterval(()=>{
+  timer.innerText="⏱️ Zeit: "+Math.floor((Date.now()-start)/1000)+" s";
+},1000);
 
 function hilfe(){
-  document.getElementById("hilfe").classList.remove("hidden");
-  hilfeGenutzt=true;
+  document.getElementById("hilfeBox").classList.remove("hidden");
+  hilfeGenutzt = true;
 }
 
 function senden(){
-  let zeitW=Math.floor((Date.now()-start)/1000);
-  zeit.value=zeitW;
+  const zeitW = Math.floor((Date.now()-start)/1000);
+  zeit.value = zeitW;
 
-  let a=antwort.value.trim();
-  let b=bonus.value.toLowerCase();
+  const haupt = antwort.value.trim();
+  const bonusTxt = bonus.value.toLowerCase();
 
-  antwortForm.value=a;
-  bonusForm.value=b;
+  punkte.value = (haupt === "16") ? 10 : 0;
 
-  punkte.value=(a==="16")?10:0;
+  if(
+    bonusTxt.includes("entflamm") ||
+    bonusTxt.includes("entzünd") ||
+    bonusTxt.includes("flamme")
+  ){
+    bonuspunkte.value = hilfeGenutzt ? 6 : 10;
+  } else {
+    bonuspunkte.value = 0;
+  }
 
-  bonuspunkte.value=(b.includes("entflamm")||b.includes("flamme"))
-    ?(hilfeGenutzt?6:10):0;
-
-  document.getElementById("formular").classList.add("hidden");
-  document.getElementById("ok").classList.remove("hidden");
+  formular.classList.add("hidden");
+  success.classList.remove("hidden");
+  rätsel.classList.remove("hidden");
 
   return true;
 }
