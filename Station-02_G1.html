@@ -25,16 +25,8 @@ body{
   width:100%;
   box-shadow:0 20px 40px rgba(0,0,0,.6);
 }
-h1{
-  text-align:center;
-  color:#60a5fa;
-  margin-top:0;
-}
-.timer{
-  text-align:center;
-  margin-bottom:16px;
-  color:#a5f3fc;
-}
+h1{text-align:center;color:#60a5fa;margin-top:0;}
+.timer{text-align:center;margin-bottom:16px;color:#a5f3fc;}
 .section{margin-bottom:18px;}
 input{
   width:100%;
@@ -55,15 +47,8 @@ button{
   font-size:1rem;
   cursor:pointer;
 }
-.submit{
-  background:linear-gradient(135deg,#3b82f6,#2563eb);
-  color:white;
-}
-.hilfe{
-  margin-top:10px;
-  background:#475569;
-  color:white;
-}
+.submit{background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;}
+.hilfe{margin-top:10px;background:#475569;color:white;}
 .hidden{display:none;}
 .hilfeBox{
   margin-top:16px;
@@ -74,18 +59,9 @@ button{
   color:#fde68a;
   text-align:center;
 }
-.hilfeBox img{
-  max-width:160px;
-  display:block;
-  margin:12px auto;
-}
-.success{
-  text-align:center;
-}
-.success .check{
-  font-size:3rem;
-  color:#22c55e;
-}
+.hilfeBox img{max-width:160px;margin:12px auto;display:block;}
+.success{text-align:center;}
+.success .check{font-size:3rem;color:#22c55e;}
 .riddle{
   margin-top:16px;
   padding:16px;
@@ -101,6 +77,7 @@ button{
 
 <div class="card">
 
+<!-- SPIEL -->
 <div id="spiel">
 
 <h1>📍 Station 2</h1>
@@ -113,15 +90,15 @@ target="hidden_iframe"
 onsubmit="return auswerten();">
 
 <!-- feste Felder -->
-<input type="hidden" name="entry.1841279378" value="1">
-<input type="hidden" name="entry.1611288883" value="2">
-<input type="hidden" name="entry.476999913" id="punkte" value="0">
-<input type="hidden" name="entry.1051828811" id="zeit" value="">
-<input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0">
+<input type="hidden" name="entry.1841279378" value="1"><!-- Gruppe -->
+<input type="hidden" name="entry.1611288883" value="2"><!-- Station -->
+<input type="hidden" name="entry.476999913" id="punkte" value="0"><!-- Punkte -->
+<input type="hidden" name="entry.1051828811" id="zeit" value=""><!-- Zeit -->
+<input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0"><!-- Bonuspunkte -->
 
 <!-- Antworten -->
-<input type="hidden" name="entry.1865983702" id="antwortForm">
-<input type="hidden" name="entry.1402484045" id="bonusAntwortForm">
+<input type="hidden" name="entry.1865983702" id="antwortForm"><!-- Antwort -->
+<input type="hidden" name="entry.1402484045" id="bonusAntwortForm"><!-- Bonusantwort -->
 
 <div class="section">
 <strong>🧩 Hauptaufgabe</strong><br>
@@ -153,6 +130,7 @@ C: Gesundheitsschädlich
 
 </div>
 
+<!-- ERFOLG -->
 <div id="erfolg" class="success hidden">
 <div class="check">✅</div>
 <h2>Antwort gesendet!</h2>
@@ -174,41 +152,43 @@ an dem Fahrzeuge pausieren.
 
 <script>
 const start = Date.now();
-let hilfeGenutzt=false;
+let hilfeGenutzt = false;
 
-setInterval(()=>{
+const timerInt = setInterval(()=>{
   document.getElementById("timer").innerText =
     "⏱️ Zeit: "+Math.floor((Date.now()-start)/1000)+" s";
 },1000);
 
 function hilfe(){
-  hilfeGenutzt=true;
+  hilfeGenutzt = true;
   document.getElementById("hilfeBox").classList.remove("hidden");
 }
 
 function auswerten(){
-  const zeit=Math.floor((Date.now()-start)/1000);
-  document.getElementById("zeit").value=zeit;
+  clearInterval(timerInt);
 
-  let punkte=0;
-  if(document.getElementById("hauptantwort").value.trim()==="16"){
-    punkte=10;
+  const zeit = Math.floor((Date.now()-start)/1000);
+  document.getElementById("zeit").value = zeit;
+
+  // Hauptpunkte
+  let punkte = 0;
+  const haupt = document.getElementById("hauptantwort").value.trim();
+  if(haupt === "16"){ punkte = 10; }
+
+  // Bonus
+  let bonuspunkte = 0;
+  const bonusText = document.getElementById("bonusantwort").value.trim();
+  if(bonusText.toLowerCase().includes("entflamm")){
+    bonuspunkte = hilfeGenutzt ? 6 : 10;
   }
 
-  let bonus=0;
-  const b=document.getElementById("bonusantwort").value.toLowerCase();
-  if(b.includes("entflamm")){
-    bonus=hilfeGenutzt?6:10;
-  }
+  // Formular befüllen
+  document.getElementById("punkte").value = punkte;
+  document.getElementById("bonuspunkte").value = bonuspunkte;
+  document.getElementById("antwortForm").value = haupt;
+  document.getElementById("bonusAntwortForm").value = bonusText;
 
-  document.getElementById("punkte").value=punkte;
-  document.getElementById("bonuspunkte").value=bonus;
-  document.getElementById("antwortForm").value=
-    document.getElementById("hauptantwort").value;
-  document.getElementById("bonusAntwortForm").value=
-    document.getElementById("bonusantwort").value;
-
-  // UI umschalten
+  // UI
   document.getElementById("spiel").classList.add("hidden");
   document.getElementById("erfolg").classList.remove("hidden");
 
