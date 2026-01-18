@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Schnitzeljagd – Station 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#020617;
+  color:#e5e7eb;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+.card{
+  background:#0f172a;
+  padding:24px;
+  border-radius:16px;
+  width:360px;
+}
+h1{text-align:center;color:#60a5fa;}
+.section{margin-bottom:18px;}
+input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #334155;
+  background:#020617;
+  color:#e5e7eb;
+}
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+.hilfe{
+  margin-top:10px;
+  background:#475569;
+}
+.hidden{display:none;}
+</style>
+</head>
+
+<body>
+<div class="card">
+<h1>📍 Station 2</h1>
+<div id="timer">⏱️ Zeit: 0 s</div>
+
+<form
+action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
+method="POST"
+target="hidden_iframe"
+onsubmit="return auswerten();">
+
+<!-- feste Werte -->
+<input type="hidden" name="entry.1841279378" value="1">
+<input type="hidden" name="entry.1611288883" value="2">
+<input type="hidden" name="entry.476999913" id="hauptpunkte" value="0">
+<input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0">
+<input type="hidden" name="entry.1051828811" id="zeit">
+
+<div class="section">
+<strong>🧩 Hauptfrage</strong><br>
+Wie viele Zapfpistolen gibt es insgesamt?
+<input type="text" id="hauptantwort" name="entry.1865983702" required>
+</div>
+
+<div class="section">
+<strong>⭐ Bonusfrage (freiwillig)</strong><br>
+Welches Gefahrensymbol erkennt ihr?
+<input type="text" id="bonusantwort" name="entry.1439971772">
+</div>
+
+<div id="hilfeBox" class="section hidden">
+<strong>Hilfe:</strong><br><br>
+A: Gesundheitsschädlich<br>
+<strong>B: Leicht entzündlich</strong><br>
+C: Umweltgefährlich
+</div>
+
+<button type="submit">Antworten absenden</button>
+</form>
+
+<button class="hilfe" onclick="hilfe()">🆘 Hilfe zur Bonusfrage</button>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+</div>
+
+<script>
+const start = Date.now();
+let hilfeGenutzt = false;
+
+setInterval(()=>{
+  document.getElementById("timer").innerText =
+    "⏱️ Zeit: " + Math.floor((Date.now()-start)/1000) + " s";
+},1000);
+
+function hilfe(){
+  hilfeGenutzt = true;
+  document.getElementById("hilfeBox").classList.remove("hidden");
+}
+
+function auswerten(){
+  // Zeit
+  document.getElementById("zeit").value =
+    Math.floor((Date.now()-start)/1000);
+
+  // Hauptfrage
+  let hp = 0;
+  if(document.getElementById("hauptantwort").value.trim() === "16"){
+    hp = 10;
+  }
+  document.getElementById("hauptpunkte").value = hp;
+
+  // Bonus
+  let bp = 0;
+  const b = document.getElementById("bonusantwort").value
+    .toLowerCase().trim();
+
+  if(!hilfeGenutzt && b.includes("leicht")){
+    bp = 10;
+  }
+  if(hilfeGenutzt && b === "b"){
+    bp = 6;
+  }
+
+  document.getElementById("bonuspunkte").value = bp;
+  return true;
+}
+</script>
+
+</body>
+</html>
