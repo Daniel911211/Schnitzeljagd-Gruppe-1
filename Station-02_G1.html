@@ -115,12 +115,11 @@ button{
 </style>
 </head>
 
-<body>
-<div class="card">
-<h1>📍 Station 2</h1>
-<div id="timerBox">
+<div id="stationHeader">
+  <h1>📍 Station 2</h1>
   <div id="timer">⏱️ Zeit: 0 s</div>
 </div>
+
 
 
 <form
@@ -236,7 +235,7 @@ function auswerten(){
   document.getElementById("erfolg").classList.remove("hidden");
   document.getElementById("erfolg").classList.remove("hidden");
   document.getElementById("timerBox").classList.add("hidden");
-
+  document.getElementById("stationHeader").classList.add("hidden");
   return true;
 }
 </script>
