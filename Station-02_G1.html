@@ -96,20 +96,27 @@ onsubmit="return auswerten();">
 <input type="hidden" name="entry.1051828811" id="zeit" value=""><!-- Zeit -->
 <input type="hidden" name="entry.1855196268" id="bonuspunkte" value="0"><!-- Bonuspunkte -->
 
-<!-- Antworten -->
-<input type="hidden" name="entry.1865983702" id="antwortForm"><!-- Antwort -->
-<input type="hidden" name="entry.1402484045" id="bonusAntwortForm"><!-- Bonusantwort -->
 
 <div class="section">
 <strong>🧩 Hauptaufgabe</strong><br>
 Wie viele <strong>Zapfpistolen</strong> gibt es insgesamt?
-<input type="text" id="hauptantwort" required>
+<input
+  type="text"
+  id="hauptantwort"
+  name="entry.1865983702"
+  required>
+
 </div>
 
 <div class="section">
 <strong>⭐ Bonusaufgabe</strong><br>
 Welches Gefahrensymbol erkennt ihr?
-<input type="text" id="bonusantwort">
+<input
+  type="text"
+  id="bonusantwort"
+  name="entry.1402484045"
+  placeholder="Bonusantwort eingeben">
+
 </div>
 
 <button type="submit" class="submit">Antworten absenden</button>
@@ -123,7 +130,7 @@ Welches Gefahrensymbol erkennt ihr?
 <p>Was bedeutet dieses Symbol?</p>
 <p>
 A: Schwer entflammbar<br>
-<strong>B: Leicht entflammbar</strong><br>
+<strong>B: Leicht entzündlich</strong><br>
 C: Gesundheitsschädlich
 </p>
 </div>
@@ -170,30 +177,26 @@ function auswerten(){
   const zeit = Math.floor((Date.now()-start)/1000);
   document.getElementById("zeit").value = zeit;
 
-  // Hauptpunkte
   let punkte = 0;
   const haupt = document.getElementById("hauptantwort").value.trim();
   if(haupt === "16"){ punkte = 10; }
 
-  // Bonus
   let bonuspunkte = 0;
-  const bonusText = document.getElementById("bonusantwort").value.trim();
-  if(bonusText.toLowerCase().includes("entflamm")){
+  const b = document.getElementById("bonusantwort").value.toLowerCase();
+  if (b.includes("entzünd") || b.includes("entzuend")) {
     bonuspunkte = hilfeGenutzt ? 6 : 10;
   }
 
-  // Formular befüllen
   document.getElementById("punkte").value = punkte;
   document.getElementById("bonuspunkte").value = bonuspunkte;
-  document.getElementById("antwortForm").value = haupt;
-  document.getElementById("bonusAntwortForm").value = bonusText;
 
-  // UI
   document.getElementById("spiel").classList.add("hidden");
+  document.getElementById("hilfeBtn").classList.add("hidden");
   document.getElementById("erfolg").classList.remove("hidden");
 
   return true;
 }
+
 </script>
 
 </body>
