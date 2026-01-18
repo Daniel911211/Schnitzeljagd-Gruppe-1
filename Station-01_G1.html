@@ -111,4 +111,63 @@
       <ul>
         <li>Lest jede Aufgabe aufmerksam.</li>
         <li>Die Zeit startet erst nach Klick auf „Start“.</li>
-        <li>Antw
+        <li>Antworten ehrlich und gemeinsam im Team.</li>
+        <li>Fairplay steht im Vordergrund.</li>
+      </ul>
+    </div>
+
+    <button onclick="startStation()">▶️ Station starten</button>
+  </div>
+
+  <!-- FRAGE -->
+  <div id="question" class="hidden">
+    <div class="timer" id="timer">⏱️ Zeit: 0 s</div>
+
+    <h1>❓ Frage</h1>
+    <p>Wie lautet die europäische Notrufnummer?</p>
+
+    <input type="text" id="answer" placeholder="Antwort eingeben">
+    <button onclick="submitAnswer()">Antwort absenden</button>
+  </div>
+
+  <!-- ERFOLG + NÄCHSTES RÄTSEL -->
+  <div id="success" class="hidden success">
+    <div class="check">✅</div>
+    <h2>Antwort gesendet!</h2>
+    <p>Gute Arbeit – weiter geht’s 👏</p>
+
+    <div class="next">
+      <strong>🧩 Rätsel zur nächsten Station</strong><br>
+      <em>(Platzhalter – Wegbeschreibung folgt)</em>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let startTime;
+  let timerInterval;
+
+  function startStation() {
+    document.getElementById("welcome").classList.add("hidden");
+    document.getElementById("question").classList.remove("hidden");
+
+    startTime = Date.now();
+    timerInterval = setInterval(updateTimer, 1000);
+  }
+
+  function updateTimer() {
+    const seconds = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById("timer").innerText = "⏱️ Zeit: " + seconds + " s";
+  }
+
+  function submitAnswer() {
+    clearInterval(timerInterval);
+
+    document.getElementById("question").classList.add("hidden");
+    document.getElementById("success").classList.remove("hidden");
+  }
+</script>
+
+</body>
+</html>
