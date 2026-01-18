@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Schnitzeljagd – Station 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .card {
+      background: rgba(2,6,23,0.9);
+      border-radius: 14px;
+      padding: 26px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 { color: #60a5fa; }
+    ul { text-align: left; }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>🚒 Station 1</h1>
+
+  <p><strong>Willkommen zur Schnitzeljagd!</strong></p>
+  <ul>
+    <li>Die Zeit startet erst nach dem Klick auf „Start“.</li>
+    <li>Antworten gemeinsam im Team.</li>
+    <li>Fairplay ist Pflicht.</li>
+  </ul>
+
+  <button onclick="start()">▶️ Station starten</button>
+</div>
+
+<script>
+  function start() {
+    window.location.href = "station1_frage.html";
+  }
+</script>
+
+</body>
+</html>
