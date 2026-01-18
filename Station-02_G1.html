@@ -182,12 +182,10 @@ function auswerten(){
 
   const richtig = [
     "leicht entzündlich",
-    "entzündlich",
-    "entzuendlich",
-    "flammbar",
-    "leicht flammbar",
-    "ghs02"
-  ].some(w => b.includes(w));
+    "Gesundheitsgefahr ",
+    "Reizend",
+    "Umwelt und Wassergefährend",
+     ].some(w => b.includes(w));
 
   if (richtig) {
     bonuspunkte = hilfeGenutzt ? 6 : 10;
