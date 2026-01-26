@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Schnitzeljagd – Station 3</title>
+<title>Schnitzeljagd – Station 4</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -143,7 +143,7 @@ button{
 
 <!-- HEADER -->
 <div id="header">
-  <h1>📍 Station 3</h1>
+  <h1>📍 Station 4</h1>
   <div id="timer">⏱️ Zeit: 0 s</div>
 </div>
 
@@ -164,7 +164,11 @@ button{
 
   <div class="section">
   <strong>🧩 Hauptfrage</strong><br><br>
-  Wie viele Postfächer der Größe M gibt es?<br><br>
+    
+ Wo Lernen wächst in alten Mauern,<br>
+ ragen Spitzen stolz empor.<br>
+ Zählt genau mit wachen Augen:<br>
+ Wie viele Türme hat die Schule hier vor Ort?
 
   <input
     type="text"
@@ -176,11 +180,8 @@ button{
 
 <div class="section">
   <strong>⭐ Bonusfrage </strong><br><br>
-  Günstig einkaufen, das können wir beide,<br>
-  doch mein Name beginnt nicht mit Blau-Gelb, sondern ganz leise.<br><br>
 
-  Ich bin oft gleich nebenan zu sehen,<br>
-  welcher Markt will mit Lidl konkurrieren gehen?<br><br>
+  Wie viel Liter Wasser hat das HLF 20/16?
 
   <input
     type="text"
@@ -206,16 +207,15 @@ button{
   <div class="raetselBox">
     ✖️ <strong>Rätsel zur nächsten Station</strong><br><br>
     
-Wo Pakete warten, gelb und still,<br>
-geht ihr nun weiter, wie das Rätsel will.<br><br>
+Hier springen Leute links und rechts,<br>
+der Jubel klingt von weit bis jetzt.<br><br>
 
-Nicht kaufen, nicht laden, kein großes Haus,<br>
-doch Autos rollen hier ein und aus.<br><br>
+Man rennt im Kreis, man läuft die Bahn,<br>
+schaut Spielen zu und feuert an.<br><br>
 
-Wo Lernen beginnt und Parken erlaubt,<br>
-ist der Ort, dem ihr nun vertraut.
-
-    
+Wo Ball und Rennen Freude macht –<br>
+welchen Ort habt ihr gedacht?
+  
   </div>
 </div>
 
@@ -225,9 +225,9 @@ ist der Ort, dem ihr nun vertraut.
 
 <script>
   // KONFIGURATION
-const RICHTIGE_M_POSTFAECHER = "10"; // ← HIER später anpassen
+const Tuerme = "4"; // ← HIER später anpassen
 const HAUPTPUNKTE_RICHTIG = 10;
-const BONUSWORT = "aldi";
+const BONUSWORT = "1600";
 const BONUSPUNKTE_RICHTIG = 10;
 
 const start = Date.now();
@@ -248,7 +248,7 @@ function auswerten(){
   let hp = 0;
   const hauptAntwort = document.getElementById("hauptantwort").value.trim();
 
-  if (hauptAntwort === RICHTIGE_M_POSTFAECHER) {
+  if (hauptAntwort === Tuerme) {
     hp = HAUPTPUNKTE_RICHTIG;
   }
   document.getElementById("hauptpunkte").value = hp;
