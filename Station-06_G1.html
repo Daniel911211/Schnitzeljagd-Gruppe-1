@@ -225,9 +225,9 @@ Vielen Dank fürs Mitmachen – gut gemacht! 🎉
 
 <script>
   // KONFIGURATION
-const RICHTIGE_M_POSTFAECHER = "10"; // ← HIER später anpassen
-const HAUPTPUNKTE_RICHTIG = 10;
-const BONUSWORT = "aldi";
+const Zahl = "10"; // ← HIER später anpassen
+const HAUPTPUNKTE_RICHTIG = 35;
+const BONUSWORT = "10";
 const BONUSPUNKTE_RICHTIG = 10;
 
 const start = Date.now();
@@ -248,7 +248,7 @@ function auswerten(){
   let hp = 0;
   const hauptAntwort = document.getElementById("hauptantwort").value.trim();
 
-  if (hauptAntwort === RICHTIGE_M_POSTFAECHER) {
+  if (hauptAntwort === Zahl) {
     hp = HAUPTPUNKTE_RICHTIG;
   }
   document.getElementById("hauptpunkte").value = hp;
