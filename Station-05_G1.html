@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Schnitzeljagd – Station 3</title>
+<title>Schnitzeljagd – Station 5</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -143,7 +143,7 @@ button{
 
 <!-- HEADER -->
 <div id="header">
-  <h1>📍 Station 3</h1>
+  <h1>📍 Station 5</h1>
   <div id="timer">⏱️ Zeit: 0 s</div>
 </div>
 
@@ -164,7 +164,7 @@ button{
 
   <div class="section">
   <strong>🧩 Hauptfrage</strong><br><br>
-  Wie viele Postfächer der Größe M gibt es?<br><br>
+  Wie viele Runden müssen für 1200m gelaufen werden?<br><br>
 
   <input
     type="text"
@@ -176,11 +176,7 @@ button{
 
 <div class="section">
   <strong>⭐ Bonusfrage </strong><br><br>
-  Günstig einkaufen, das können wir beide,<br>
-  doch mein Name beginnt nicht mit Blau-Gelb, sondern ganz leise.<br><br>
-
-  Ich bin oft gleich nebenan zu sehen,<br>
-  welcher Markt will mit Lidl konkurrieren gehen?<br><br>
+In welchem Jahr wurde der Kernort Neuhof gebildet?
 
   <input
     type="text"
@@ -206,15 +202,17 @@ button{
   <div class="raetselBox">
     ✖️ <strong>Rätsel zur nächsten Station</strong><br><br>
     
-Wo Pakete warten, gelb und still,<br>
-geht ihr nun weiter, wie das Rätsel will.<br><br>
+Wo rote Wagen stets bereit,<br>
+für Hilfe stehen, Tag und Zeit.<br><br>
 
-Nicht kaufen, nicht laden, kein großes Haus,<br>
-doch Autos rollen hier ein und aus.<br><br>
+Sirenen heulen, wenn’s mal brennt,<br>
+ein Ort, den jedes Kind hier kennt.<br><br>
 
-Wo Lernen beginnt und Parken erlaubt,<br>
-ist der Ort, dem ihr nun vertraut.
+Helme glänzen, Schläuche liegen,<br>
+wo Retter üben, löschen, siegen.<br><br>
 
+Wohin müsst ihr als Nächstes gehen?<br>
+Schaut genau hin – ihr werdet’s sehen.<br><br>
     
   </div>
 </div>
@@ -225,9 +223,9 @@ ist der Ort, dem ihr nun vertraut.
 
 <script>
   // KONFIGURATION
-const RICHTIGE_M_POSTFAECHER = "10"; // ← HIER später anpassen
+const Runden = "3"; // ← HIER später anpassen
 const HAUPTPUNKTE_RICHTIG = 10;
-const BONUSWORT = "aldi";
+const BONUSWORT = "1928";
 const BONUSPUNKTE_RICHTIG = 10;
 
 const start = Date.now();
@@ -248,7 +246,7 @@ function auswerten(){
   let hp = 0;
   const hauptAntwort = document.getElementById("hauptantwort").value.trim();
 
-  if (hauptAntwort === RICHTIGE_M_POSTFAECHER) {
+  if (hauptAntwort === Runden) {
     hp = HAUPTPUNKTE_RICHTIG;
   }
   document.getElementById("hauptpunkte").value = hp;
