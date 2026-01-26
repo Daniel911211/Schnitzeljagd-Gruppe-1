@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Schnitzeljagd – Station 1</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Schnitzeljagd – Station 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
+<style>
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
@@ -16,24 +16,14 @@ body{
   align-items:center;
   min-height:100vh;
 }
-
-/* CARD */
 .card{
   background:#0f172a;
   padding:24px;
   border-radius:16px;
   width:360px;
-  box-shadow:0 20px 40px rgba(0,0,0,.6);
 }
-
-h1{
-  text-align:center;
-  color:#60a5fa;
-  margin-top:0;
-}
-
-.section{margin-bottom:18px;}
-
+h1{text-align:center;color:#60a5fa;margin-top:0;}
+#timer{text-align:center;color:#a5f3fc;font-weight:bold;margin-bottom:16px;}
 input{
   width:100%;
   padding:12px;
@@ -42,7 +32,6 @@ input{
   background:#020617;
   color:#e5e7eb;
 }
-
 button{
   width:100%;
   padding:14px;
@@ -53,167 +42,95 @@ button{
   font-weight:bold;
   cursor:pointer;
 }
-
-.hilfe{
-  margin-top:10px;
-  background:#475569;
-}
-
 .hidden{display:none;}
 
-/* TIMER */
-#timer{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:6px;
-  margin-bottom:16px;
-  color:#a5f3fc;
-  font-weight:bold;
-}
-
-/* HILFEBOX */
-.hilfeBox{
-  margin-top:18px;
-  padding:16px;
-  border-radius:14px;
-  background:rgba(250,204,21,0.08);
-  border:1px solid rgba(250,204,21,0.35);
-  text-align:center;
-}
-.hilfeBox img{
-  max-width:140px;
-  margin:12px auto;
-  display:block;
-}
-.hilfeBox .answers{
-  margin-top:10px;
-  line-height:1.6;
-}
-.hilfeBox .hint{
-  margin-top:10px;
-  font-size:0.85rem;
-  color:#fde68a;
-}
-
-/* ERFOLG */
-.erfolgBox{
-  text-align:center;
-}
+.erfolgBox{text-align:center;}
 .checkIcon{
-  width:48px;
-  height:48px;
-  margin:0 auto 12px;
-  border-radius:10px;
-  background:#22c55e;
-  color:#fff;
-  font-size:28px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.erfolgText{
-  font-size:1.4rem;
-  font-weight:bold;
-  margin-bottom:16px;
+  width:48px;height:48px;margin:0 auto 12px;
+  border-radius:10px;background:#22c55e;
+  color:#fff;font-size:28px;
+  display:flex;align-items:center;justify-content:center;
 }
 .raetselBox{
-  padding:16px;
-  border-radius:14px;
-  background:rgba(34,197,94,0.12);
-  border:1px solid rgba(34,197,94,0.45);
-  color:#bbf7d0;
-  line-height:1.6;
+  padding:16px;border-radius:14px;
+  background:rgba(34,197,94,.12);
+  border:1px solid rgba(34,197,94,.45);
+  color:#bbf7d0;line-height:1.6;
 }
 </style>
 </head>
 
 <body>
-
 <div class="card">
 
-  <!-- HEADER -->
-<div id="header">
+<!-- SPIEL -->
+<div id="spiel">
   <h1>📍 Station 1</h1>
   <div id="timer">⏱️ Zeit: 0 s</div>
+
+  <p><strong>❓ Frage:</strong><br>
+  Wie lautet die europäische Notrufnummer?</p>
+
+  <form
+    id="formular"
+    action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
+    method="POST"
+    target="hidden_iframe"
+    onsubmit="absenden(); return false;">
+
+    <input type="hidden" name="entry.1841279378" value="1">
+    <input type="hidden" name="entry.1611288883" value="1">
+    <input type="hidden" name="entry.476999913" id="punkte" value="0">
+    <input type="hidden" name="entry.1051828811" id="zeit">
+
+    <input type="text" id="antwort" name="entry.1865983702" required>
+
+    <button type="submit">Antwort absenden</button>
+  </form>
 </div>
 
+<!-- ERFOLG -->
+<div id="erfolg" class="hidden erfolgBox">
+  <div class="checkIcon">✔</div>
+  <h2>Antwort gesendet!</h2>
 
-    <p><strong>❓ Frage:</strong><br>
-      Wie lautet die europäische Notrufnummer?
-    </p>
-
-    <form
-      action="https://docs.google.com/forms/d/e/1FAIpQLSf2c7-3JTvk9BarK9MBxpo73ykdESEy84IV-Yo7OxPOvg6zOw/formResponse"
-      method="POST"
-      target="hidden_iframe"
-      onsubmit="return absenden();"
-    >
-
-      <!-- feste Werte -->
-      <input type="hidden" name="entry.1841279378" value="1">
-      <input type="hidden" name="entry.1611288883" value="1">
-      <input type="hidden" name="entry.476999913" id="punkte" value="0">
-      <input type="hidden" name="entry.1051828811" id="zeit" value="">
-
-      <input
-        type="text"
-        id="antwort"
-        name="entry.1865983702"
-        placeholder="Antwort eingeben"
-        required
-      >
-
-      <button type="submit">Antwort absenden</button>
-    </form>
-
-    <iframe name="hidden_iframe" style="display:none;"></iframe>
+  <div class="raetselBox">
+    🧩 <strong>Rätsel zur nächsten Station</strong><br><br>
+    Kein Wohnort,<br>
+    kein Ziel zum Bleiben.<br><br>
+    Unter einem großen Dach<br>
+    wird Energie weitergegeben.<br><br>
+    Findet den Ort,<br>
+    an dem Fahrzeuge pausieren.
   </div>
+</div>
 
-  <!-- Antwort gesendet! -->
-  <div id="erfolg" class="hidden success">
-    <div class="check">✅</div>
-    <h2>Antwort gesendet!</h2>
-
-    <div class="next">
-      <strong>🧩 Rätsel zur nächsten Station</strong><br><br>
-
-      Kein Wohnort,<br>
-      kein Ziel zum Bleiben.<br><br>
-
-      Unter einem großen Dach<br>
-      wird Energie weitergegeben.<br><br>
-
-      Findet den Ort,<br>
-      an dem Fahrzeuge pausieren.
-    </div>
-  </div>
-
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 </div>
 
 <script>
-  const startZeit = Date.now();
-  const timer = setInterval(() => {
-    const sek = Math.floor((Date.now() - startZeit) / 1000);
-    document.getElementById("timer").innerText = "⏱️ Zeit: " + sek + " s";
-  }, 1000);
+const start = Date.now();
+const timerInt = setInterval(()=>{
+  document.getElementById("timer").innerText =
+    "⏱️ Zeit: " + Math.floor((Date.now()-start)/1000) + " s";
+},1000);
 
-  function absenden() {
-    clearInterval(timer);
+function absenden(){
+  clearInterval(timerInt);
 
-    const antwort = document.getElementById("antwort").value.trim();
+  const zeit = Math.floor((Date.now()-start)/1000);
+  document.getElementById("zeit").value = zeit;
 
-    document.getElementById("punkte").value =
-      (antwort === "112") ? "10" : "0";
+  const antwort = document.getElementById("antwort").value.trim();
+  document.getElementById("punkte").value = (antwort === "112") ? 10 : 0;
 
-    document.getElementById("zeit").value =
-      Math.floor((Date.now() - startZeit) / 1000);
+  document.getElementById("spiel").classList.add("hidden");
+  document.getElementById("erfolg").classList.remove("hidden");
 
-    document.getElementById("frage").classList.add("hidden");
-    document.getElementById("erfolg").classList.remove("hidden");
-
-    return true;
-  }
+  setTimeout(()=>{
+    document.getElementById("formular").submit();
+  },300);
+}
 </script>
 
 </body>
