@@ -203,6 +203,12 @@ ist der Ort, dem ihr nun vertraut.
 </div>
 
 <script>
+  // KONFIGURATION
+const RICHTIGE_M_POSTFAECHER = "10"; // ← HIER später anpassen
+const HAUPTPUNKTE_RICHTIG = 10;
+const BONUSWORT = "aldi";
+const BONUSPUNKTE_RICHTIG = 10;
+
 const start = Date.now();
 
 setInterval(()=>{
@@ -211,25 +217,37 @@ setInterval(()=>{
 },1000);
 
 function auswerten(){
+  // Zeit setzen
   document.getElementById("zeit").value =
     Math.floor((Date.now()-start)/1000);
 
-  // Hauptfrage
+  /* =====================
+     HAUPTFRAGE
+     ===================== */
   let hp = 0;
-  if (document.getElementById("hauptantwort").value.trim() === "16") {
-    hp = 10;
+  const hauptAntwort = document.getElementById("hauptantwort").value.trim();
+
+  if (hauptAntwort === RICHTIGE_M_POSTFAECHER) {
+    hp = HAUPTPUNKTE_RICHTIG;
   }
   document.getElementById("hauptpunkte").value = hp;
 
-  // Bonusfrage: Lidl-Konkurrent
+  /* =====================
+     BONUSFRAGE (freiwillig)
+     ===================== */
   let bp = 0;
-  const b = document.getElementById("bonusantwort").value.toLowerCase().trim();
-  if (b.includes("aldi")) {
-    bp = 10;
+  const bonusAntwort = document.getElementById("bonusantwort").value
+    .toLowerCase()
+    .trim();
+
+  if (bonusAntwort.includes(BONUSWORT)) {
+    bp = BONUSPUNKTE_RICHTIG;
   }
   document.getElementById("bonuspunkte").value = bp;
 
-  // UI umschalten
+  /* =====================
+     UI umschalten
+     ===================== */
   document.querySelector("form").classList.add("hidden");
   document.getElementById("erfolg").classList.remove("hidden");
   document.getElementById("header").classList.add("hidden");
