@@ -155,36 +155,27 @@ button{
 
   <div class="section">
     <strong>🧩 Hauptfrage</strong><br>
-    Wie viele Zapfpistolen gibt es insgesamt?
+    Wie viele Postfächer der Größe M gibt es?
     <input type="text" id="hauptantwort" name="entry.1865983702" required>
   </div>
 
   <div class="section">
     <strong>⭐ Bonusfrage (freiwillig)</strong><br>
-    Welches Gefahrensymbol erkennt ihr?
+    Günstig einkaufen, das können wir beide,<br>
+doch mein Name beginnt nicht mit Blau-Gelb, sondern ganz leise.<br><br>
+
+Ich bin oft gleich nebenan zu sehen,<br>
+welcher Markt will mit Lidl konkurrieren gehen?
+
     <input type="text" id="bonusantwort" name="entry.1439971772">
   </div>
 
-  <div id="hilfeBox" class="hilfeBox hidden">
-    <strong>Hilfe – Gefahrensymbol</strong>
-    <img src="https://daniel911211.github.io/Bilder/Leicht-Entflammbar.png"
-         alt="Gefahrensymbol leicht entzündlich">
-
-    <div class="answers">
-      A: Gesundheitsschädlich<br>
-      B: Leicht entzündlich<br>
-      C: Umweltgefährlich
-    </div>
-
-    <div class="hint">
-      Hinweis: Gib den Buchstaben oder die Bedeutung ein.
-    </div>
-  </div>
+ 
 
   <button type="submit">Antworten absenden</button>
 </form>
 
-<button class="hilfe" onclick="hilfe()">🆘 Hilfe zur Bonusfrage</button>
+
 
 <!-- ERFOLG -->
 <div id="erfolg" class="hidden erfolgBox">
@@ -194,14 +185,14 @@ button{
   <div class="raetselBox">
     ✖️ <strong>Rätsel zur nächsten Station</strong><br><br>
     
-Wo günstig der Einkauf gelingt,<br>
-und Blau-Gelb weithin sichtbar blinkt.<br><br>
+Wo Pakete warten, gelb und still,<br>
+geht ihr nun weiter, wie das Rätsel will.<br><br>
 
-Bekannt für Preise, klein und fair,<br>
-der Markt am Ort, den fast hier jeder kennt.<br><br>
+Nicht kaufen, nicht laden, kein großes Haus,<br>
+doch Autos rollen hier ein und aus.<br><br>
 
-Daneben steht in kräftigem Gelb,<br>
-ein Platz, der Pakete sicher hält.
+Wo Lernen beginnt und Parken erlaubt,<br>
+ist der Ort, dem ihr nun vertraut.
 
     
   </div>
@@ -213,44 +204,40 @@ ein Platz, der Pakete sicher hält.
 
 <script>
 const start = Date.now();
-let hilfeGenutzt = false;
 
 setInterval(()=>{
   document.getElementById("timer").innerText =
     "⏱️ Zeit: " + Math.floor((Date.now()-start)/1000) + " s";
 },1000);
 
-function hilfe(){
-  hilfeGenutzt = true;
-  document.getElementById("hilfeBox").classList.remove("hidden");
-}
-
 function auswerten(){
   document.getElementById("zeit").value =
     Math.floor((Date.now()-start)/1000);
 
+  // Hauptfrage
   let hp = 0;
-  if(document.getElementById("hauptantwort").value.trim() === "16"){
+  if (document.getElementById("hauptantwort").value.trim() === "16") {
     hp = 10;
   }
   document.getElementById("hauptpunkte").value = hp;
 
+  // Bonusfrage: Lidl-Konkurrent
   let bp = 0;
   const b = document.getElementById("bonusantwort").value.toLowerCase().trim();
-
-  if(!hilfeGenutzt && b.includes("leicht")) bp = 10;
-  if(hilfeGenutzt && b === "b") bp = 6;
-
+  if (b.includes("aldi")) {
+    bp = 10;
+  }
   document.getElementById("bonuspunkte").value = bp;
 
+  // UI umschalten
   document.querySelector("form").classList.add("hidden");
-  document.querySelector(".hilfe").classList.add("hidden");
   document.getElementById("erfolg").classList.remove("hidden");
   document.getElementById("header").classList.add("hidden");
 
   return true;
 }
 </script>
+
 
 </body>
 </html>
