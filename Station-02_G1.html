@@ -37,10 +37,10 @@ h1{
   margin-bottom:18px;
 }
 
-/* INPUTFELDER – FIX gegen Überlaufen */
+/* INPUTFELDER – mittig, gleicher Abstand links/rechts */
 .section input{
   width:100%;
-  box-sizing:border-box;   /* WICHTIG */
+  box-sizing:border-box;   /* WICHTIG: verhindert Überlaufen */
   padding:12px;
   border-radius:10px;
   border:1px solid #334155;
@@ -48,6 +48,7 @@ h1{
   color:#e5e7eb;
   font-size:1rem;
 }
+
 
 /* BUTTON */
 button{
@@ -81,6 +82,7 @@ button{
 
 /* HILFEBOX */
 .hilfeBox{
+  margin-bottom:32px;
   margin-top:18px;
   padding:16px;
   border-radius:14px;
@@ -164,13 +166,22 @@ button{
   <div class="section">
     <strong>🧩 Hauptfrage</strong><br>
     Wie viele Zapfpistolen gibt es insgesamt?
-    <input type="text" id="hauptantwort" name="entry.1865983702" required>
+    <input
+  type="text"
+  id="hauptantwort"
+  name="entry.1865983702"
+  placeholder="Antwort eingeben"
+  required>    
   </div>
 
   <div class="section">
     <strong>⭐ Bonusfrage (freiwillig)</strong><br><br>
     Welches Gefahrensymbol erkennt ihr?
-    <input type="text" id="bonusantwort" name="entry.1439971772">
+    <input
+  type="text"
+  id="bonusantwort"
+  name="entry.1439971772"
+  placeholder="Antwort eingeben">   
   </div>
 
   <div id="hilfeBox" class="hilfeBox hidden">
