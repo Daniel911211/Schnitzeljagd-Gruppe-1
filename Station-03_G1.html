@@ -216,7 +216,9 @@ button{
     placeholder="Antwort eingeben">
 </div>
 
- 
+  <div id="gpsStatus" style="margin:10px 0; font-size:0.9rem; color:#fde68a;">
+📡 Standort wird geprüft …
+</div>
 
   <button type="submit">Antworten absenden</button>
 
@@ -263,12 +265,59 @@ const BONUSPUNKTE_RICHTIG = 10;
 
 const start = Date.now();
 
+ // ZIEL-KOORDINATEN (HIER ANPASSEN!)
+const ZIEL_LAT = 50.450514;  
+const ZIEL_LON = 9.614289;
+const TOLERANZ_METER = 30;
+
+let gpsOK = false;
+  
 setInterval(()=>{
   document.getElementById("timer").innerText =
     "⏱️ Zeit: " + Math.floor((Date.now()-start)/1000) + " s";
 },1000);
 
+  navigator.geolocation.getCurrentPosition(
+  pos => {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+
+    const dist = berechneDistanz(lat, lon, ZIEL_LAT, ZIEL_LON);
+
+    if (dist <= TOLERANZ_METER) {
+      gpsOK = true;
+      document.getElementById("gpsStatus").innerText =
+        "✅ Du bist am richtigen Standort";
+    } else {
+      gpsOK = false;
+      document.getElementById("gpsStatus").innerText =
+        "📍 Du bist noch nicht am richtigen Standort";
+    }
+  },
+  err => {
+    document.getElementById("gpsStatus").innerText =
+      "📡 Bitte Standortfreigabe erlauben";
+  }
+);
+
+function berechneDistanz(lat1, lon1, lat2, lon2){
+  const R = 6371000;
+  const dLat = (lat2-lat1) * Math.PI/180;
+  const dLon = (lon2-lon1) * Math.PI/180;
+  const a =
+    Math.sin(dLat/2)**2 +
+    Math.cos(lat1*Math.PI/180) *
+    Math.cos(lat2*Math.PI/180) *
+    Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+  
 function auswerten(){
+
+   if (!gpsOK) {
+  alert("📍 Du bist noch nicht am richtigen Standort.");
+  return false;
+}  
   // Zeit setzen
   document.getElementById("zeit").value =
     Math.floor((Date.now()-start)/1000);
