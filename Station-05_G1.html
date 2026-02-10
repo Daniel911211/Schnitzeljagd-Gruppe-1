@@ -16,7 +16,6 @@ body{
   align-items:center;
   min-height:100vh;
 }
-
 .card{
   background:#0f172a;
   padding:24px;
@@ -24,24 +23,10 @@ body{
   width:360px;
   box-shadow:0 20px 40px rgba(0,0,0,.6);
 }
+h1{ text-align:center; color:#60a5fa; margin-top:0; }
+#timer{ text-align:center; margin-bottom:12px; color:#a5f3fc; font-weight:bold; }
 
-h1{
-  text-align:center;
-  color:#60a5fa;
-  margin-top:0;
-}
-
-#timer{
-  text-align:center;
-  margin-bottom:12px;
-  color:#a5f3fc;
-  font-weight:bold;
-}
-
-.section{
-  margin-bottom:18px;
-}
-
+.section{ margin-bottom:18px; }
 .section input{
   width:100%;
   box-sizing:border-box;
@@ -51,7 +36,6 @@ h1{
   background:#020617;
   color:#e5e7eb;
 }
-
 button{
   width:100%;
   padding:14px;
@@ -60,24 +44,15 @@ button{
   background:#2563eb;
   color:white;
   font-weight:bold;
-  cursor:pointer;
 }
-
 .hidden{display:none;}
-
-.erfolgBox{
-  text-align:center;
-}
-
 .raetselBox{
   padding:16px;
   border-radius:14px;
   background:rgba(34,197,94,0.12);
   border:1px solid rgba(34,197,94,0.45);
   color:#bbf7d0;
-  line-height:1.6;
 }
-
 .buchstabenBox{
   margin-top:20px;
   padding:16px;
@@ -86,17 +61,11 @@ button{
   background:rgba(239,68,68,0.12);
   border:2px solid rgba(239,68,68,0.6);
 }
-
-.buchstabe{
-  font-size:3.5rem;
-  font-weight:bold;
-  color:#fecaca;
-}
+.buchstabe{ font-size:3.5rem; font-weight:bold; color:#fecaca; }
 </style>
 </head>
 
 <body>
-
 <div class="card">
 
 <div id="header">
@@ -104,50 +73,43 @@ button{
   <div id="timer">⏱️ Zeit: 0 s</div>
 </div>
 
-<form
-  id="formular"
-  action="https://docs.google.com/forms/d/e/1FAIpQLSdULt5n9Mv6MJtZy1W7Y0RjT1_VW56ZkYACE-uukUErIK7trA/formResponse"
-  method="POST"
-  target="hidden_iframe"
-  onsubmit="return auswerten();">
+<form id="formular"
+ action="https://docs.google.com/forms/d/e/1FAIpQLSdULt5n9Mv6MJtZy1W7Y0RjT1_VW56ZkYACE-uukUErIK7trA/formResponse"
+ method="POST" target="hidden_iframe"
+ onsubmit="return auswerten();">
 
-  <!-- feste Werte -->
-  <input type="hidden" name="entry.2065943787" value="1">
-  <input type="hidden" name="entry.277494817" value="5">
-  <input type="hidden" name="entry.1434791088" id="hauptpunkte" value="0">
-  <input type="hidden" name="entry.68499526" id="bonuspunkte" value="0">
-  <input type="hidden" name="entry.2070741248" id="zeit">
+<input type="hidden" name="entry.2065943787" value="1">
+<input type="hidden" name="entry.277494817" value="5">
+<input type="hidden" name="entry.1434791088" id="hauptpunkte">
+<input type="hidden" name="entry.68499526" id="bonuspunkte">
+<input type="hidden" name="entry.2070741248" id="zeit">
 
-  <div id="gpsStatus" style="margin-bottom:12px;color:#fde68a;">
-    📡 Standort wird geprüft …
+<div id="gpsStatus" style="margin-bottom:12px;color:#fde68a;">
+📡 Standort wird geprüft …
+</div>
+
+<div id="fragenBlock" class="hidden">
+  <div class="section">
+    <strong>🧩 Hauptfrage</strong><br><br>
+    Wie viele Runden müssen für 1200 m gelaufen werden?
+    <input id="hauptantwort" name="entry.634051671" required>
   </div>
 
-  <div id="fragenBlock" class="hidden">
-
-    <div class="section">
-      <strong>🧩 Hauptfrage</strong><br><br>
-      Wie viele Runden müssen für 1200 m gelaufen werden?
-      <input type="text" id="hauptantwort" name="entry.634051671" required>
-    </div>
-
-    <div class="section">
-      <strong>⭐ Bonusfrage</strong><br><br>
-      In welchem Jahr wurde der Kernort Neuhof gebildet?
-      <input type="text" id="bonusantwort" name="entry.1320841054">
-    </div>
-
-    <button type="submit">Antworten absenden</button>
+  <div class="section">
+    <strong>⭐ Bonusfrage</strong><br><br>
+    In welchem Jahr wurde der Kernort Neuhof gebildet?
+    <input id="bonusantwort" name="entry.1320841054">
   </div>
 
+  <button type="submit">Antworten absenden</button>
+</div>
 </form>
 
-<div id="erfolg" class="hidden erfolgBox">
+<div id="erfolg" class="hidden">
   <h2>✔ Geschafft!</h2>
-
   <div class="raetselBox">
     Wo rote Wagen stets bereit,<br>
     für Hilfe stehen, Tag und Zeit.<br><br>
-
     Sirenen heulen, wenn’s mal brennt,<br>
     ein Ort, den jedes Kind hier kennt.
   </div>
@@ -159,11 +121,11 @@ button{
 </div>
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
-
 </div>
 
 <script>
-const start = Date.now();
+let startZeit = null;
+let timerInterval = null;
 
 const ZIEL_LAT = 50.450514;
 const ZIEL_LON = 9.614289;
@@ -174,27 +136,21 @@ const BONUS_JAHR = "1928";
 
 let gpsOK = false;
 
-setInterval(()=>{
-  document.getElementById("timer").innerText =
-    "⏱️ Zeit: " + Math.floor((Date.now()-start)/1000) + " s";
-},1000);
-
 navigator.geolocation.getCurrentPosition(pos=>{
-  const d = dist(
-    pos.coords.latitude,
-    pos.coords.longitude,
-    ZIEL_LAT,
-    ZIEL_LON
-  );
-
-  if(d <= TOLERANZ){
-    gpsOK = true;
-    document.getElementById("gpsStatus").innerText =
-      "✅ Standort bestätigt – Fragen freigeschaltet";
+  const d = dist(pos.coords.latitude,pos.coords.longitude,ZIEL_LAT,ZIEL_LON);
+  if(d<=TOLERANZ){
+    gpsOK=true;
+    document.getElementById("gpsStatus").innerText="✅ Standort bestätigt – Fragen freigeschaltet";
     document.getElementById("fragenBlock").classList.remove("hidden");
-  } else {
+
+    startZeit = Date.now();
+    timerInterval = setInterval(()=>{
+      document.getElementById("timer").innerText =
+        "⏱️ Zeit: " + Math.floor((Date.now()-startZeit)/1000) + " s";
+    },1000);
+  }else{
     document.getElementById("gpsStatus").innerText =
-      "📍 Noch " + Math.round(d) + " m entfernt";
+      "📍 Noch "+Math.round(d)+" m entfernt";
   }
 });
 
@@ -212,7 +168,7 @@ function auswerten(){
   if(!gpsOK){ alert("Du bist noch nicht am richtigen Standort."); return false; }
 
   document.getElementById("zeit").value =
-    Math.floor((Date.now()-start)/1000);
+    Math.floor((Date.now()-startZeit)/1000);
 
   document.getElementById("hauptpunkte").value =
     document.getElementById("hauptantwort").value.trim()===RICHTIGE_RUNDEN ? 10 : 0;
@@ -220,6 +176,7 @@ function auswerten(){
   document.getElementById("bonuspunkte").value =
     document.getElementById("bonusantwort").value.trim().includes(BONUS_JAHR) ? 10 : 0;
 
+  clearInterval(timerInterval);
   document.getElementById("formular").classList.add("hidden");
   document.getElementById("header").classList.add("hidden");
   document.getElementById("erfolg").classList.remove("hidden");
@@ -227,6 +184,5 @@ function auswerten(){
   return true;
 }
 </script>
-
 </body>
 </html>
